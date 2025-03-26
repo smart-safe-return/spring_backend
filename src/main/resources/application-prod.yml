@@ -1,0 +1,32 @@
+spring:
+  config:
+    activate:
+      on-profile: prod
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    #    url: jdbc:postgresql://${SPRING_DATABASE_HOST}:5432/${SPRING_DATABASE_NAME}
+    url: jdbc:postgresql:///${SPRING_DATABASE_NAME}?cloudSqlInstance=${SPRING_DATABASE_HOST}&socketFactory=com.google.cloud.sql.postgres.SocketFactory
+    username: ${SPRING_DATABASE_USERNAME}
+    password: ${SPRING_DATABASE_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        format_sql: false
+        default_schema: ${SPRING_DATABASE_SCHEMA:gyuchanlee} # postgresql의 기본 스키마로 내 꺼 지정
+
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql: TRACE
+
+# JWT 설정
+jwt:
+  secret: ${SPRING_JWT_SECRET}
+  access-expiration: ${SPRING_JWT_ACCESS_EXPIRATION:3600000}  # 60 min: 기본값 설정
+  refresh-expiration: ${SPRING_JWT_REFRESH_EXPIRATION:86400000}  # 24 hours: 기본값 설정
+
+# Cors 프론트 url 설정
+cors:
+  allowed-origins: ${FRONT_URL:http://localhost:3000}
