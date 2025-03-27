@@ -98,11 +98,14 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
-        corsConfiguration.setAllowedOrigins(allowedOrigins);
+        // 웹 통신이나, 쿠키를 활용한다면 setAllowCredentials()을 true로 바꾸고 allowedOrigins 설정해야함
+//        corsConfiguration.setAllowedOrigins(allowedOrigins);
+        corsConfiguration.setAllowedOrigins(List.of("*"));
         corsConfiguration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         corsConfiguration.setAllowedHeaders(List.of("*"));
-        corsConfiguration.setAllowCredentials(true);
-        corsConfiguration.setExposedHeaders(List.of("Authorization", "Cache-Control", "Content-Type"));
+        // JWT 인증 / 인가 방식을 쿠키를 사용하지 않고 헤더를 사용하므로 false 가능 -> 쿠키를 주고 받는 기능을 쓴다면 무조건 true로 켜야함
+        corsConfiguration.setAllowCredentials(false);
+        corsConfiguration.setExposedHeaders(List.of("Authorization", "Cache-Control", "Content-Type", "refresh"));
         corsConfiguration.setMaxAge(3600L);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

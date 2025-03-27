@@ -25,7 +25,7 @@ logging:
 jwt:
   secret: ${SPRING_JWT_SECRET}
   access-expiration: ${SPRING_JWT_ACCESS_EXPIRATION:3600000}  # 60 min: 기본값 설정
-  refresh-expiration: ${SPRING_JWT_REFRESH_EXPIRATION:86400000}  # 24 hours: 기본값 설정
+  refresh-expiration: ${SPRING_JWT_REFRESH_EXPIRATION:2592000000}  # 30 days : 기본값 설정
 
 # Cors 프론트 url 설정
 cors:
