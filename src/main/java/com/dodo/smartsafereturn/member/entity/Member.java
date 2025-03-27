@@ -1,7 +1,7 @@
 package com.dodo.smartsafereturn.member.entity;
 
 import com.dodo.smartsafereturn.emergencycontact.entity.EmergencyContact;
-import com.dodo.smartsafereturn.global.utils.BaseTimeEntity;
+import com.dodo.smartsafereturn.global.entity.BaseTimeEntity;
 import com.dodo.smartsafereturn.member.dto.MemberUpdateDto;
 import com.dodo.smartsafereturn.sosmessage.entity.SosMessage;
 import jakarta.persistence.*;
@@ -34,8 +34,6 @@ public class Member extends BaseTimeEntity {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<EmergencyContact> emergencyContactList = new ArrayList<>();
 
-    @OneToOne(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private SosMessage sosMessage;
 
     // 생성자 -> 첫 가입
     public Member(String id, String encodedPassword, String phone) {
@@ -59,11 +57,5 @@ public class Member extends BaseTimeEntity {
     public void addEmergencyContact(EmergencyContact emergencyContact) {
         this.emergencyContactList.add(emergencyContact);
         emergencyContact.setMember(this);
-    }
-
-    // 양방향 연관관계 편의 메서드 (SosMessage)
-    public void addSosMessage(SosMessage sosMessage) {
-        this.sosMessage = sosMessage;
-        sosMessage.setMember(this);
     }
 }

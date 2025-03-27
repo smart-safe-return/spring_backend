@@ -1,4 +1,4 @@
-package com.dodo.smartsafereturn.global.utils;
+package com.dodo.smartsafereturn.global.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;

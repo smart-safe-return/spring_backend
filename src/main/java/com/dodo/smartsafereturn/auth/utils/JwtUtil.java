@@ -1,7 +1,6 @@
-package com.dodo.smartsafereturn.global.utils;
+package com.dodo.smartsafereturn.auth.utils;
 
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -71,13 +70,31 @@ public class JwtUtil {
     }
 
     /**
+     * - 토큰의 타입 (엑세스 토큰 or 리프레시 토큰) 가져오기
+     * @param token
+     * @return
+     */
+    public String getType(String token) {
+        return Jwts.parser()
+                .verifyWith(secretKey)
+                .build()
+                .parseSignedClaims(token)
+                .getPayload()
+                .get("type", String.class);
+    }
+
+    /**
      * - 보통은 토큰 생성을 무조건 user 만 생성해주는것으로 한다
      * @param memberNumber
      * @param id
      * @return
      */
-    public String generateToken(Long memberNumber, String id, String role, Long expiration) {
+    public String generateToken(String tokenType, Long memberNumber, String id, String role, Long expiration) {
         return Jwts.builder()
+                .header()
+                    .add("typ", "JWT")
+                .and()
+                .claim("type", tokenType) // access / refresh
                 .claim("memberNumber", memberNumber)
                 .claim("id", id)
                 .claim("role", role)

@@ -1,6 +1,6 @@
 package com.dodo.smartsafereturn.sosmessage.entity;
 
-import com.dodo.smartsafereturn.global.utils.BaseTimeEntity;
+import com.dodo.smartsafereturn.global.entity.BaseTimeEntity;
 import com.dodo.smartsafereturn.member.entity.Member;
 import jakarta.persistence.*;
 import lombok.*;
@@ -22,8 +22,7 @@ public class SosMessage extends BaseTimeEntity {
 
     private Boolean isDeleted;
 
-    // 연관관계 편의 메서드를 위한 setter
-    @Setter
+    // 단방향 (sosMessage -> Member)
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_number")
     private Member member;

@@ -1,5 +1,7 @@
-package com.dodo.smartsafereturn.global.utils;
+package com.dodo.smartsafereturn.auth.service;
 
+import com.dodo.smartsafereturn.auth.entity.CustomUserDetails;
+import com.dodo.smartsafereturn.auth.dto.JwtMemberInfoDto;
 import com.dodo.smartsafereturn.member.entity.Member;
 import com.dodo.smartsafereturn.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,9 +21,16 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
 
-        Member member = memberRepository.findByIdAndIsDeletedIsFalse(id)
+        Member member = memberRepository.findMemberByIdNotDeleted(id)
                 .orElseThrow(() -> new UsernameNotFoundException("[CustomUserDetailsService] user not found error"));
 
-        return new CustomUserDetails(member);
+        return new CustomUserDetails(
+                JwtMemberInfoDto.builder()
+                        .id(member.getId())
+                        .memberNumber(member.getMemberNumber())
+                        .role("USER_ROLE")
+                        .password(member.getPassword())
+                        .build()
+        );
     }
 }
