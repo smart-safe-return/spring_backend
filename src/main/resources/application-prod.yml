@@ -15,7 +15,8 @@ spring:
       hibernate:
         format_sql: false
         default_schema: ${SPRING_DATABASE_SCHEMA:gyuchanlee} # postgresql의 기본 스키마로 내 꺼 지정
-
+  jackson:
+    property-naming-strategy: SNAKE_CASE # JSON 요청 형식 스네이크로 오는것을 카멜케이스로 자동 변환 (거꾸로도 지원)
 logging:
   level:
     org.hibernate.SQL: DEBUG

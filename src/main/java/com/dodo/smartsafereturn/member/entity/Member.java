@@ -15,8 +15,6 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
-@Builder
 @Slf4j
 public class Member extends BaseTimeEntity {
 
@@ -43,9 +41,10 @@ public class Member extends BaseTimeEntity {
 
 
     // 생성자 -> 첫 가입
-    public Member(String id, String encodedPassword, String phone) {
+    @Builder
+    public Member(String id, String password, String phone) {
         this.id = id;
-        this.password = encodedPassword;
+        this.password = password;
         this.phone = phone;
         this.isDeleted = false;
     }
@@ -76,5 +75,16 @@ public class Member extends BaseTimeEntity {
     public void addQuestion(Question question) {
         this.questionList.add(question);
         question.setMember(this);
+    }
+
+    // 회원 삭제 or 복원 처리 -> isDeleted 플래그 변경
+    public void changeDeleteFlag() {
+        if (!this.isDeleted) {
+            // 활동중 회원이라면 탈퇴 플래그
+            this.isDeleted = true;
+        } else {
+            // null or true => 탈퇴 및 정지 회원
+            this.isDeleted = false;
+        }
     }
 }
