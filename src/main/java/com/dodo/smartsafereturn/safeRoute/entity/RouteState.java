@@ -1,4 +1,4 @@
-package com.dodo.smartsafereturn.safeRoute.dto;
+package com.dodo.smartsafereturn.safeRoute.entity;
 
 public enum RouteState {
     // todo 귀가루트에 완주여부 이거 뭐지
