@@ -7,8 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
-@Builder
 @Slf4j
 public class RefreshToken {
     /**
@@ -28,6 +26,7 @@ public class RefreshToken {
 
     private String expiration;
 
+    @Builder
     public RefreshToken(String memberId, String refresh, String expiration) {
         this.memberId = memberId;
         this.refresh = refresh;

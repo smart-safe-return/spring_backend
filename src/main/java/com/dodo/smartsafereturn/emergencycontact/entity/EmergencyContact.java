@@ -10,8 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
-@Builder
 @Slf4j
 public class EmergencyContact extends BaseTimeEntity {
 
@@ -31,6 +29,7 @@ public class EmergencyContact extends BaseTimeEntity {
     private Member member;
 
     // 생성자
+    @Builder
     public EmergencyContact(String name, String phone, Member member) {
         this.name = name;
         this.phone = phone;

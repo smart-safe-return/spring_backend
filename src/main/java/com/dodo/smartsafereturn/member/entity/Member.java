@@ -79,12 +79,7 @@ public class Member extends BaseTimeEntity {
 
     // 회원 삭제 or 복원 처리 -> isDeleted 플래그 변경
     public void changeDeleteFlag() {
-        if (!this.isDeleted) {
-            // 활동중 회원이라면 탈퇴 플래그
-            this.isDeleted = true;
-        } else {
-            // null or true => 탈퇴 및 정지 회원
-            this.isDeleted = false;
-        }
+
+        this.isDeleted = !this.isDeleted;
     }
 }

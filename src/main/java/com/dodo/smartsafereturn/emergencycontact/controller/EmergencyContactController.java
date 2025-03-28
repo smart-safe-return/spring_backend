@@ -3,12 +3,10 @@ package com.dodo.smartsafereturn.emergencycontact.controller;
 import com.dodo.smartsafereturn.emergencycontact.dto.EmergencyContactCreateDto;
 import com.dodo.smartsafereturn.emergencycontact.dto.EmergencyContactResponseDto;
 import com.dodo.smartsafereturn.emergencycontact.dto.EmergencyContactUpdateDto;
-import com.dodo.smartsafereturn.emergencycontact.entity.EmergencyContact;
 import com.dodo.smartsafereturn.emergencycontact.service.EmergencyContactService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
