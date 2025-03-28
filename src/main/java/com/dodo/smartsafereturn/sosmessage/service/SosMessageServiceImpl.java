@@ -32,21 +32,24 @@ public class SosMessageServiceImpl implements SosMessageService {
                 .orElseThrow(() -> new RuntimeException("[SosMessageService] createSosMessage() : 존재하지 않는 회원"));
 
         // 회원이 이미 메시지를 만들었는 지 검증
-        // is_deleted flag 가 true 인지 확인하고, -> true 인놈에 덮어쓰고 플래그 false 로 바꾸기
+        // 물리적으로 DB에 존재하는지 검색
         Optional<SosMessage> existingMessage = sosMessageRepository.findByMember_memberNumber(createDto.getMemberNumber());
 
         SosMessage sosMessage;
         if (existingMessage .isPresent()) {
             sosMessage = existingMessage .get();
 
+            // is_deleted flag 가 true 인지 확인
             if (sosMessage.getIsDeleted()) {
+                // true 인놈에 덮어쓰고 플래그 false 로 바꾸기
                 sosMessage.changeDeleteFlag();
                 sosMessage.update(createDto.getContent());
             } else {
+                // 물리적 / 논리적으로 존재하는데도 등록하려 했으므로 예외 반환
                 throw new RuntimeException("duplicate sosMessage");
             }
         } else {
-            // 새 메시지 만들어 보내기
+            // 새 메시지 만들어 보내기 -> 물리적으로 존재하지 않음
             sosMessageRepository.save(
                     SosMessage.builder()
                             .content(createDto.getContent())
