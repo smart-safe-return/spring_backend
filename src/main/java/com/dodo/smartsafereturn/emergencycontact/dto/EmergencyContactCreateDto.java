@@ -1,6 +1,7 @@
 package com.dodo.smartsafereturn.emergencycontact.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,7 +14,9 @@ import lombok.NoArgsConstructor;
 @Builder
 public class EmergencyContactCreateDto {
 
-    @NotBlank(message = "이름은 필수 입력 값")
+    @NotNull(message = "회원 PK값 필수 입력 값")
+    private Long memberNumber;
+    @NotBlank(message = "비상 연락망의 이름은 필수 입력 값")
     private String name;
     @NotBlank(message = "전화 번호는 필수 입력 값")
     @Pattern(

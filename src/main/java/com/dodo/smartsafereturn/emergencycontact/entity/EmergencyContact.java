@@ -1,5 +1,7 @@
 package com.dodo.smartsafereturn.emergencycontact.entity;
 
+import com.dodo.smartsafereturn.emergencycontact.dto.EmergencyContactUpdateDto;
+import com.dodo.smartsafereturn.global.entity.BaseTimeEntity;
 import com.dodo.smartsafereturn.member.entity.Member;
 import jakarta.persistence.*;
 import lombok.*;
@@ -11,7 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
 @Slf4j
-public class EmergencyContact {
+public class EmergencyContact extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,6 +35,12 @@ public class EmergencyContact {
         this.name = name;
         this.phone = phone;
         this.member = member;
+    }
+
+    // 수정 메서드
+    public void update(EmergencyContactUpdateDto dto) {
+        this.name = dto.getName();
+        this.phone = dto.getPhone();
     }
 
 }
