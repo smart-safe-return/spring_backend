@@ -21,6 +21,10 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SafeRouteServiceImpl implements SafeRouteService {
 
+    /**
+     * todo 2025-03-28 service 구현 / Postman 테스트 필요
+     */
+    
     private final SafeRouteRepository safeRouteRepository;
     private final MemberRepository memberRepository;
 
@@ -41,6 +45,52 @@ public class SafeRouteServiceImpl implements SafeRouteService {
                         .build()
         );
 
+        return ofDto(safeRoute);
+    }
+
+    @Transactional
+    @Override
+    public void update(SafeRouteUpdateDto dto) {
+        SafeRoute safeRoute = safeRouteRepository.findById(dto.getSafeRouteId())
+                .orElseThrow(() -> new RuntimeException("[SafeRouteService] update() : 존재하지 않는 안전 귀가 경로"));
+
+        safeRoute.update(dto);
+    }
+
+    @Transactional
+    @Override
+    public void changeStatus(RouteState state, Long safeRouteId) {
+        SafeRoute safeRoute = safeRouteRepository.findById(safeRouteId)
+                .orElseThrow(() -> new RuntimeException("[SafeRouteService] changeStatus() : 존재하지 않는 안전 귀가 경로"));
+
+        safeRoute.changeIsSuccess(state);
+    }
+
+    @Transactional
+    @Override
+    public void delete(Long safeRouteId) {
+        // 실제 삭제
+        safeRouteRepository.deleteById(safeRouteId);
+    }
+
+    @Override
+    public SafeRouteResponseDto getSafeRoute(Long safeRouteId) {
+        SafeRoute safeRoute = safeRouteRepository.findById(safeRouteId)
+                .orElseThrow(() -> new RuntimeException("[SafeRouteService] getSafeRoute() : 존재하지 않는 안전 귀가 경로"));
+
+        return ofDto(safeRoute);
+    }
+
+    @Override
+    public List<SafeRouteResponseDto> getMemberSafeRoutes(Long memberNumber) {
+
+        return safeRouteRepository.findRoutesByMemberNumber(memberNumber)
+                .stream()
+                .map(SafeRouteServiceImpl::ofDto)
+                .toList();
+    }
+
+    private static SafeRouteResponseDto ofDto(SafeRoute safeRoute) {
         return SafeRouteResponseDto.builder()
                 .safeRouteId(safeRoute.getId())
                 .memberNumber(safeRoute.getMember().getMemberNumber())
@@ -50,33 +100,5 @@ public class SafeRouteServiceImpl implements SafeRouteService {
                 .endTime(safeRoute.getEndTime())
                 .isSuccess(safeRoute.getIsSuccess())
                 .build();
-    }
-
-    @Transactional
-    @Override
-    public void update(SafeRouteUpdateDto dto) {
-
-    }
-
-    @Transactional
-    @Override
-    public void changeStatus(RouteState state, Long safeRouteId) {
-
-    }
-
-    @Transactional
-    @Override
-    public void delete(Long safeRouteId) {
-
-    }
-
-    @Override
-    public SafeRouteResponseDto getSafeRoute(Long safeRouteId) {
-        return null;
-    }
-
-    @Override
-    public List<SafeRouteResponseDto> getMemberSafeRoutes(Long memberNumber) {
-        return List.of();
     }
 }

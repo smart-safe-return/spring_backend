@@ -3,6 +3,7 @@ package com.dodo.smartsafereturn.safeRoute.entity;
 import com.dodo.smartsafereturn.global.entity.BaseTimeEntity;
 import com.dodo.smartsafereturn.member.entity.Member;
 import com.dodo.smartsafereturn.messagelog.entity.MessageLog;
+import com.dodo.smartsafereturn.safeRoute.dto.SafeRouteUpdateDto;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
@@ -55,6 +56,17 @@ public class SafeRoute extends BaseTimeEntity {
         this.startTime = startTime;
         this.endTime = endTime;
         this.member = member;
+    }
+
+    // update 메서드
+    public void update(SafeRouteUpdateDto dto) {
+        this.endLocation = dto.getEndLocation();
+        this.endTime = dto.getEndTime();
+    }
+
+    // status 상태 변경
+    public void changeIsSuccess(RouteState isSuccess) {
+        this.isSuccess = isSuccess;
     }
 
 
