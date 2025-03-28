@@ -3,7 +3,8 @@ package com.dodo.smartsafereturn.member.entity;
 import com.dodo.smartsafereturn.emergencycontact.entity.EmergencyContact;
 import com.dodo.smartsafereturn.global.entity.BaseTimeEntity;
 import com.dodo.smartsafereturn.member.dto.MemberUpdateDto;
-import com.dodo.smartsafereturn.sosmessage.entity.SosMessage;
+import com.dodo.smartsafereturn.question.entity.Question;
+import com.dodo.smartsafereturn.safeRoute.entity.SafeRoute;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
@@ -34,6 +35,12 @@ public class Member extends BaseTimeEntity {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<EmergencyContact> emergencyContactList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<SafeRoute> safeRouteList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Question> questionList = new ArrayList<>();
+
 
     // 생성자 -> 첫 가입
     public Member(String id, String encodedPassword, String phone) {
@@ -57,5 +64,17 @@ public class Member extends BaseTimeEntity {
     public void addEmergencyContact(EmergencyContact emergencyContact) {
         this.emergencyContactList.add(emergencyContact);
         emergencyContact.setMember(this);
+    }
+
+    // 양방향 연관관계 편의 메서드 (SafeRoute)
+    public void addSafeRoute(SafeRoute safeRoute) {
+        this.safeRouteList.add(safeRoute);
+        safeRoute.setMember(this);
+    }
+
+    // 양방향 연관관계 편의 메서드 (Question)
+    public void addQuestion(Question question) {
+        this.questionList.add(question);
+        question.setMember(this);
     }
 }

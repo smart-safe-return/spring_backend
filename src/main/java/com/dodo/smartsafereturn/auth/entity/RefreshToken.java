@@ -19,9 +19,13 @@ public class RefreshToken {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "refresh_token_id")
     private Long id;
+
     // unique 설정 X : 하나의 회원이 여러 기기로 리프레시 토큰을 가질 수 있음
     private String memberId;
+
+    @Column(columnDefinition = "TEXT")
     private String refresh;
+
     private String expiration;
 
     public RefreshToken(String memberId, String refresh, String expiration) {

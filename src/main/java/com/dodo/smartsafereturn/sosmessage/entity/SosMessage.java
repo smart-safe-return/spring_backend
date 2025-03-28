@@ -18,6 +18,7 @@ public class SosMessage extends BaseTimeEntity {
     @Column(name = "sos_message_id")
     private Long id;
 
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String content;
 
     private Boolean isDeleted;
