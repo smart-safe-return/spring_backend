@@ -20,11 +20,5 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     // 회원 가입 전, 회원이 존재하는 지 체크 (Id값)
     boolean existsByIdAndIsDeletedIsFalse(String id);
 
-    // 회원 가입 전, 회원이 존재하는 지 체크 (PK값)
-    boolean existsByMemberNumberAndIsDeletedIsFalse(Long memberNumber);
-
-    // memberNumber (PK) 로 삭제
-    void deleteByMemberNumber(Long memberNumber);
-
     List<Member> findAllByIsDeletedIsFalse();
 }

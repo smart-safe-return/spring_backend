@@ -1,5 +1,6 @@
 package com.dodo.smartsafereturn.admin.entity;
 
+import com.dodo.smartsafereturn.admin.dto.AdminUpdateDto;
 import com.dodo.smartsafereturn.answer.entity.Answer;
 import com.dodo.smartsafereturn.global.entity.BaseTimeEntity;
 import com.dodo.smartsafereturn.question.entity.Question;
@@ -21,6 +22,7 @@ public class Admin extends BaseTimeEntity {
     @Column(name = "admin_number")
     private Long adminNumber;
 
+    @Column(unique = true, nullable = false)
     private String id;
 
     private String password;
@@ -35,5 +37,22 @@ public class Admin extends BaseTimeEntity {
     public void addAnswer(Answer answer) {
         this.answerList.add(answer);
         answer.setAdmin(this);
+    }
+
+    // 첫 가입
+    @Builder
+    public Admin(String id, String password) {
+        this.id = id;
+        this.password = password;
+        this.isDeleted = false;
+    }
+
+    public void changeDeleteFlag() {
+
+        this.isDeleted = !this.isDeleted;
+    }
+
+    public void update(String encodedPassword) {
+        this.password = encodedPassword;
     }
 }
