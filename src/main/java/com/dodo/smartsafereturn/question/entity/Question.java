@@ -3,6 +3,7 @@ package com.dodo.smartsafereturn.question.entity;
 import com.dodo.smartsafereturn.answer.entity.Answer;
 import com.dodo.smartsafereturn.global.entity.BaseTimeEntity;
 import com.dodo.smartsafereturn.member.entity.Member;
+import com.dodo.smartsafereturn.question.dto.QuestionUpdateDto;
 import com.dodo.smartsafereturn.questioncategory.entity.QuestionCategory;
 import com.dodo.smartsafereturn.safeRoute.entity.SafeRoute;
 import jakarta.persistence.*;
@@ -13,8 +14,6 @@ import org.hibernate.annotations.ColumnDefault;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
-@Builder
 @Slf4j
 public class Question extends BaseTimeEntity {
 
@@ -45,4 +44,34 @@ public class Question extends BaseTimeEntity {
     @Setter
     @OneToOne(mappedBy = "question")
     private Answer answer;
+
+    // 첫 생성
+    @Builder
+    public Question(String title, String content, QuestionCategory questionCategory, Member member) {
+        this.title = title;
+        this.content = content;
+        this.isDeleted = Boolean.FALSE;
+        this.questionCategory = questionCategory;
+        this.member = member;
+    }
+
+    // update 메서드
+    public void update(String title, String content, QuestionCategory questionCategory) {
+
+        if (title != null && !title.isEmpty()) {
+            this.title = title;
+        }
+        if (content != null && !content.isEmpty()) {
+            this.content = content;
+        }
+        if (questionCategory != null) {
+            this.questionCategory = questionCategory;
+            // 연관관계 추가
+            questionCategory.addQuestion(this);
+        }
+    }
+
+    public void changeDeleteFlag() {
+        this.isDeleted = !this.isDeleted;
+    }
 }

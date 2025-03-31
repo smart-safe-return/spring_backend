@@ -29,6 +29,8 @@ public class MessageLogServiceImpl implements MessageLogService {
         SafeRoute safeRoute = safeRouteRepository.findById(dto.getSafeRouteId())
                 .orElseThrow(() -> new RuntimeException("[MessageLogService] save() : 존재 하지 않는 귀가루트"));
 
+        // todo 추후 coolsms 기능 추가
+
         MessageLog savedMessageLog = messageLogRepository.save(
                 MessageLog.builder()
                         .message(dto.getMessage())
