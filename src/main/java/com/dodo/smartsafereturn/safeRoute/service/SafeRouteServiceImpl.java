@@ -69,6 +69,9 @@ public class SafeRouteServiceImpl implements SafeRouteService {
     @Transactional
     @Override
     public void delete(Long safeRouteId) {
+        // 존재하는 검증
+        SafeRoute safeRoute = safeRouteRepository.findById(safeRouteId)
+                .orElseThrow(() -> new RuntimeException("[SafeRouteService] delete() : 존재하지 않는 안전 귀가 경로"));
         // 실제 삭제
         safeRouteRepository.deleteById(safeRouteId);
     }

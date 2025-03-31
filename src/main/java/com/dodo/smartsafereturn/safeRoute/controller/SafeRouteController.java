@@ -1,5 +1,6 @@
 package com.dodo.smartsafereturn.safeRoute.controller;
 
+import com.dodo.smartsafereturn.safeRoute.dto.SafeRouteChangeStateDto;
 import com.dodo.smartsafereturn.safeRoute.dto.SafeRouteCreateDto;
 import com.dodo.smartsafereturn.safeRoute.dto.SafeRouteResponseDto;
 import com.dodo.smartsafereturn.safeRoute.dto.SafeRouteUpdateDto;
@@ -9,6 +10,7 @@ import com.dodo.smartsafereturn.safeRoute.service.SafeRouteService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,21 +25,21 @@ public class SafeRouteController {
 
     // 안전 귀가 루트 등록
     @PostMapping("")
-    public ResponseEntity<SafeRouteResponseDto> create(@RequestBody SafeRouteCreateDto dto) {
+    public ResponseEntity<SafeRouteResponseDto> create(@Validated @RequestBody SafeRouteCreateDto dto) {
          return ResponseEntity.ok(safeRouteService.create(dto));
     }
 
     // 안전 귀가 루트 수정 (도착지, 도착시간)
     @PutMapping("/{safeRouteId}")
-    public ResponseEntity<?> update(@RequestBody SafeRouteUpdateDto dto) {
+    public ResponseEntity<?> update(@Validated @RequestBody SafeRouteUpdateDto dto) {
         safeRouteService.update(dto);
         return ResponseEntity.ok().build();
     }
 
     // 안전 귀가 루트 상태 변경 (사용자 도중 포기, 실패, 완료) todo 받는 변수 state 임 나중에 프론트랑 상의해서 변수명 맞추기
     @PutMapping("/{safeRouteId}/state")
-    public ResponseEntity<?> update(@RequestBody RouteState state, @PathVariable Long safeRouteId) {
-        safeRouteService.changeStatus(state, safeRouteId);
+    public ResponseEntity<?> update(@Validated @RequestBody SafeRouteChangeStateDto dto, @PathVariable Long safeRouteId) {
+        safeRouteService.changeStatus(dto.getState(), safeRouteId);
         return ResponseEntity.ok().build();
     }
 

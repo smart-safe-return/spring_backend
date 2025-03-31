@@ -7,6 +7,7 @@ import com.dodo.smartsafereturn.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,14 +22,14 @@ public class MemberController {
 
     // 회원 가입
     @PostMapping("")
-    public ResponseEntity<Void> joinMember(@RequestBody MemberJoinDto dto) {
+    public ResponseEntity<Void> joinMember(@Validated @RequestBody MemberJoinDto dto) {
         memberService.join(dto);
         return ResponseEntity.ok().build();
     }
 
     // 회원 수정 (비밀번호 or 휴대폰 번호)
     @PutMapping("/{memberNumber}")
-    public ResponseEntity<Void> updateMember(@PathVariable Long memberNumber, @RequestBody MemberUpdateDto dto) {
+    public ResponseEntity<Void> updateMember(@PathVariable Long memberNumber, @Validated @RequestBody MemberUpdateDto dto) {
         memberService.update(dto);
         return ResponseEntity.ok().build();
     }
