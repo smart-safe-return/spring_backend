@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Slf4j
 public class MessageLog extends BaseTimeEntity {
 
@@ -24,4 +25,11 @@ public class MessageLog extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "safe_route_id")
     private SafeRoute safeRoute;
+
+    // 첫 생성
+    @Builder
+    public MessageLog(String message, SafeRoute safeRoute) {
+        this.message = message;
+        this.safeRoute = safeRoute;
+    }
 }
