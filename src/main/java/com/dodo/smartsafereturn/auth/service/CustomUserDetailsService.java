@@ -30,7 +30,6 @@ public class CustomUserDetailsService implements UserDetailsService {
                         .memberNumber(member.getMemberNumber())
                         .role("USER_ROLE")
                         .password(member.getPassword())
-                        .build()
-        );
+                        .build());
     }
 }

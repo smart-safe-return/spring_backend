@@ -1,17 +1,19 @@
 package com.dodo.smartsafereturn.global.config;
 
 import com.dodo.smartsafereturn.auth.repository.RefreshTokenRepository;
+import com.dodo.smartsafereturn.auth.service.AdminUserDetailsService;
 import com.dodo.smartsafereturn.auth.service.AuthService;
-import com.dodo.smartsafereturn.auth.utils.CustomLogoutFilter;
-import com.dodo.smartsafereturn.auth.utils.JwtFilter;
-import com.dodo.smartsafereturn.auth.utils.JwtUtil;
-import com.dodo.smartsafereturn.auth.utils.LoginFilter;
+import com.dodo.smartsafereturn.auth.service.CustomUserDetailsService;
+import com.dodo.smartsafereturn.auth.utils.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.ProviderManager;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -41,6 +43,9 @@ public class SecurityConfig {
     private final RefreshTokenRepository refreshTokenRepository;
     private final AuthService authService;
 
+    private final CustomUserDetailsService memberUserDetailsService;
+    private final AdminUserDetailsService adminUserDetailsService;
+
     @Value("${jwt.access-expiration}")
     private Long accessExpiration;
 
@@ -69,7 +74,7 @@ public class SecurityConfig {
                         auth ->
                                 auth
                                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                                        .requestMatchers("/api/auth/login", "/api/auth/logout").permitAll()
+                                        .requestMatchers("/api/auth/login", "/api/auth/admin/login","/api/auth/logout").permitAll()
                                         .requestMatchers(HttpMethod.POST, "/api/auth/reissue").permitAll() // 리프레시 토큰 재발급 로직 경로
                                         .requestMatchers(HttpMethod.POST, "/api/member").permitAll() // 회원 가입
                                         .requestMatchers("/api/test").permitAll()
@@ -79,9 +84,27 @@ public class SecurityConfig {
                                         .anyRequest().permitAll()
                 )
                 // 시큐리티의 아이디 비밀번호 인증 필터 대신 인증 및 jwt 발급하는 custom 필터 사용
-                .addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration),
-                                jwtUtil, accessExpiration, refreshExpiration, refreshTokenRepository),
-                        UsernamePasswordAuthenticationFilter.class)
+                // 필터 등록 시 적절한 위치와 별도의 AuthenticationManager 사용
+                .addFilterAt(
+                        new LoginFilter(
+                                memberAuthManager(authenticationConfiguration),
+                                jwtUtil,
+                                accessExpiration,
+                                refreshExpiration,
+                                refreshTokenRepository
+                        ),
+                        UsernamePasswordAuthenticationFilter.class
+                )
+                .addFilterBefore(
+                        new AdminLoginFilter(
+                                adminAuthManager(authenticationConfiguration),
+                                jwtUtil,
+                                accessExpiration,
+                                refreshExpiration,
+                                refreshTokenRepository
+                        ),
+                        LoginFilter.class // LoginFilter 이전에 실행되도록 설정
+                )
                 // jwt 필터 체인
                 .addFilterBefore(new JwtFilter(jwtUtil), LoginFilter.class)
                 // 로그아웃 필터 등록 : 기존 시큐리티의 LogoutFilter 필터보다 먼저 수행되도록 하기
@@ -91,9 +114,23 @@ public class SecurityConfig {
         return http.build();
     }
 
+
+    // 두 개의 다른 AuthenticationManager 생성
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
-        return configuration.getAuthenticationManager();
+    @Primary
+    public AuthenticationManager memberAuthManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+        provider.setUserDetailsService(memberUserDetailsService); // 회원용 UserDetailsService
+        provider.setPasswordEncoder(passwordEncoder());
+        return new ProviderManager(provider);
+    }
+
+    @Bean
+    public AuthenticationManager adminAuthManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+        provider.setUserDetailsService(adminUserDetailsService); // 관리자용 UserDetailsService
+        provider.setPasswordEncoder(passwordEncoder());
+        return new ProviderManager(provider);
     }
 
     @Bean

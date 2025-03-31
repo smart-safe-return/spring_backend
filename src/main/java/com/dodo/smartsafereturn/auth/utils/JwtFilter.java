@@ -17,7 +17,7 @@ import java.io.IOException;
 
 /**
  * JWT 검증 필터 - JWT 갖고 인가 요청에 대해 처리
- * 2025-03-27 : access / refresh token 구현 + todo refresh token 저장소 필요
+ * 2025-03-27 : access / refresh token 구현
  * 기능 : 요청 헤더 Authorization 에서 JWT 추출 -> 강제로 SecurityContextHolder 세션 생성 (STATELESS 상태로 관리)
  * - 1. 액세스 토큰이 만료된 경우 -> 리프레시 토큰 검증 요청을 다시 프론트로 보내야함
  */
@@ -71,6 +71,7 @@ public class JwtFilter extends OncePerRequestFilter {
         Long memberNumber = jwtUtil.getMemberNumber(accessToken);
         String id = jwtUtil.getId(accessToken);
         String role = jwtUtil.getRole(accessToken);
+
         JwtMemberInfoDto dto = JwtMemberInfoDto.builder()
                 .memberNumber(memberNumber)
                 .id(id)
