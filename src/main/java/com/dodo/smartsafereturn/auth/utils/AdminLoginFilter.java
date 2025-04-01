@@ -1,5 +1,6 @@
 package com.dodo.smartsafereturn.auth.utils;
 
+import com.dodo.smartsafereturn.auth.dto.JwtType;
 import com.dodo.smartsafereturn.auth.dto.LoginDto;
 import com.dodo.smartsafereturn.auth.entity.CustomUserDetails;
 import com.dodo.smartsafereturn.auth.entity.RefreshToken;
@@ -35,9 +36,6 @@ import java.util.Date;
  */
 @Slf4j
 public class AdminLoginFilter extends UsernamePasswordAuthenticationFilter {
-
-    private static final String ACCESS = "access";
-    private static final String REFRESH = "refresh";
 
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
@@ -105,8 +103,8 @@ public class AdminLoginFilter extends UsernamePasswordAuthenticationFilter {
         String role = authResult.getAuthorities().iterator().next().getAuthority();
 
         // access token & refresh token 생성
-        String accessToken = jwtUtil.generateToken(ACCESS, memberNumber, id, role, accessExpiration);
-        String refreshToken = jwtUtil.generateToken(REFRESH, memberNumber, id, role, refreshExpiration);
+        String accessToken = jwtUtil.generateToken(JwtType.ACCESS.getValue(), memberNumber, id, role, accessExpiration);
+        String refreshToken = jwtUtil.generateToken(JwtType.REFRESH.getValue(), memberNumber, id, role, refreshExpiration);
 
         // 리프레시 토큰 저장소에 생성한 토큰 저장
         refreshTokenRepository.save(

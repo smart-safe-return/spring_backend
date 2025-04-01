@@ -81,7 +81,7 @@ public class SecurityConfig {
                                         .requestMatchers("/api/test/jwtTest1").hasAnyRole("ADMIN", "USER")
 //                                        .requestMatchers("/api/**").authenticated() todo 실제 배포때 바꾸기
                                         .requestMatchers("/api/**").permitAll()
-                                        .anyRequest().permitAll()
+                                        .anyRequest().authenticated()
                 )
                 // 시큐리티의 아이디 비밀번호 인증 필터 대신 인증 및 jwt 발급하는 custom 필터 사용
                 // 필터 등록 시 적절한 위치와 별도의 AuthenticationManager 사용

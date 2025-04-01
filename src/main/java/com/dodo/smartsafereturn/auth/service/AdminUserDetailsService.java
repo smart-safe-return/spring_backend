@@ -3,6 +3,7 @@ package com.dodo.smartsafereturn.auth.service;
 import com.dodo.smartsafereturn.admin.entity.Admin;
 import com.dodo.smartsafereturn.admin.repository.AdminRepository;
 import com.dodo.smartsafereturn.auth.dto.JwtMemberInfoDto;
+import com.dodo.smartsafereturn.auth.dto.Role;
 import com.dodo.smartsafereturn.auth.entity.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +30,7 @@ public class AdminUserDetailsService implements UserDetailsService {
                 .memberNumber(admin.getAdminNumber())
                 .id(admin.getId())
                 .password(admin.getPassword())
-                .role("ROLE_ADMIN") // 관리자 역할 지정
+                .role(Role.ROLE_ADMIN.getValue()) // 관리자 역할 지정
                 .build());
     }
 }

@@ -1,5 +1,6 @@
 package com.dodo.smartsafereturn.auth.service;
 
+import com.dodo.smartsafereturn.auth.dto.Role;
 import com.dodo.smartsafereturn.auth.entity.CustomUserDetails;
 import com.dodo.smartsafereturn.auth.dto.JwtMemberInfoDto;
 import com.dodo.smartsafereturn.member.entity.Member;
@@ -28,7 +29,7 @@ public class CustomUserDetailsService implements UserDetailsService {
                 JwtMemberInfoDto.builder()
                         .id(member.getId())
                         .memberNumber(member.getMemberNumber())
-                        .role("USER_ROLE")
+                        .role(Role.ROLE_USER.getValue())
                         .password(member.getPassword())
                         .build());
     }

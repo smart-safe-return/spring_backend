@@ -1,5 +1,6 @@
 package com.dodo.smartsafereturn.question.controller;
 
+import com.dodo.smartsafereturn.auth.dto.Role;
 import com.dodo.smartsafereturn.question.dto.*;
 import com.dodo.smartsafereturn.question.service.QuestionService;
 import com.google.api.gax.rpc.StatusCode;
@@ -56,7 +57,8 @@ public class QuestionController {
     @GetMapping("/all")
     public ResponseEntity<?> getAllQuestions() {
         // admin 만 접근하도록 권한 제어
-        if (!SecurityContextHolder.getContext().getAuthentication().getAuthorities().iterator().next().getAuthority().equals("ROLE_ADMIN")) {
+        if (!SecurityContextHolder.getContext().getAuthentication()
+                .getAuthorities().iterator().next().getAuthority().equals(Role.ROLE_ADMIN.getValue())) {
             return new ResponseEntity<>("관리자만 접근 가능", HttpStatus.FORBIDDEN);
         }
         return ResponseEntity.ok(questionService.getList());

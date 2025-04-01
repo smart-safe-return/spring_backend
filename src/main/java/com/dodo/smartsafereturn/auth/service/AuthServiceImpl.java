@@ -1,5 +1,6 @@
 package com.dodo.smartsafereturn.auth.service;
 
+import com.dodo.smartsafereturn.auth.dto.JwtType;
 import com.dodo.smartsafereturn.auth.dto.RefreshValidationResultDto;
 import com.dodo.smartsafereturn.auth.entity.RefreshToken;
 import com.dodo.smartsafereturn.auth.repository.RefreshTokenRepository;
@@ -84,11 +85,11 @@ public class AuthServiceImpl implements AuthService {
         String role = jwtUtil.getRole(refreshToken);
 
         // 새롭게 엑세스 토큰 발급 후, 다시 Authorization 헤더에 첨부
-        String reissuedAccessToken = jwtUtil.generateToken("access", memberNumber, id, role, accessExpiration);
+        String reissuedAccessToken = jwtUtil.generateToken(JwtType.ACCESS.getValue(), memberNumber, id, role, accessExpiration);
         response.addHeader("Authorization", "Bearer " + reissuedAccessToken);
 
         // RTR 기법 추가 (리프레시 토큰 재발급)
-        String reissuedRefreshToken = jwtUtil.generateToken("refresh", memberNumber, id, role, refreshExpiration);
+        String reissuedRefreshToken = jwtUtil.generateToken(JwtType.REFRESH.getValue(), memberNumber, id, role, refreshExpiration);
         response.addHeader("refresh", "Bearer " + reissuedRefreshToken);
         /**
          * 주의점 - 재발급을 해도 이전의 토큰을 가지고 서버에 가져가도 인증이 됨 -> 리프레시 토큰 저장소 검증

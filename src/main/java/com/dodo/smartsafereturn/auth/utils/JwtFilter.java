@@ -1,5 +1,6 @@
 package com.dodo.smartsafereturn.auth.utils;
 
+import com.dodo.smartsafereturn.auth.dto.JwtType;
 import com.dodo.smartsafereturn.auth.entity.CustomUserDetails;
 import com.dodo.smartsafereturn.auth.dto.JwtMemberInfoDto;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -59,7 +60,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
         // 토큰이 access token 인지 검증
         String type = jwtUtil.getType(accessToken);
-        if (!type.equals("access")) {
+        if (!type.equals(JwtType.ACCESS.getValue())) {
             // response body
             response.getWriter().print("access_invalid");
             // status code 설정 todo 엑세스 토큰이 잘못됨 -> 프론트와 협의한 에러 코드를 보내서 리프레시토큰을 요구하도록 함 (일단 401)

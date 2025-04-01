@@ -19,9 +19,4 @@ public class JwtMemberInfoDto {
     private String role;
     private String password;
 
-    public JwtMemberInfoDto(Long memberNumber, String id, String role) {
-        this.memberNumber = memberNumber;
-        this.id = id;
-        this.role = role;
-    }
 }
