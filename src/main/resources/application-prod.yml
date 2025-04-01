@@ -21,10 +21,10 @@ spring:
   cloud:
     gcp:
       credentials:
-      project-id: {GOOGLE_CLOUD_STORAGE_PROJECT_ID}
+      project-id: ${GOOGLE_CLOUD_STORAGE_PROJECT_ID}
       storage:
         credentials:
-        project-id: {GOOGLE_CLOUD_STORAGE_PROJECT_ID}
+        project-id: ${GOOGLE_CLOUD_STORAGE_PROJECT_ID}
 
   servlet:
     multipart:
@@ -35,7 +35,7 @@ spring:
 google:
   cloud:
     storage:
-      bucket-name: {GOOGLE_CLOUD_STORAGE_BUCKET}
+      bucket-name: ${GOOGLE_CLOUD_STORAGE_BUCKET}
 
 logging:
   level:
