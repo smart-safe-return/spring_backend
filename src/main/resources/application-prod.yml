@@ -22,8 +22,8 @@ spring:
     gcp:
       sql:
         enabled: false
-      credentials:
-      project-id: ${GOOGLE_CLOUD_STORAGE_PROJECT_ID}
+#      credentials:
+#      project-id: ${GOOGLE_CLOUD_STORAGE_PROJECT_ID}
       storage:
         credentials:
         project-id: ${GOOGLE_CLOUD_STORAGE_PROJECT_ID}
