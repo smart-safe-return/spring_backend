@@ -4,6 +4,7 @@ import com.dodo.smartsafereturn.admin.entity.Admin;
 import com.dodo.smartsafereturn.global.entity.BaseTimeEntity;
 import com.dodo.smartsafereturn.question.entity.Question;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.annotations.ColumnDefault;
@@ -37,9 +38,30 @@ public class Answer extends BaseTimeEntity {
     @JoinColumn(name = "admin_number")
     private Admin admin;
 
+    // 첫 생성
+    @Builder
+    public Answer(String title, String content, Question question, Admin admin) {
+        this.title = title;
+        this.content = content;
+        this.isDeleted = false;
+        this.question = question;
+        this.admin = admin;
+    }
+
     // 양방향 연관관계 편의 메서드 (Question)
     public void addQuestion(Question question) {
-        this.setQuestion(question);
+//        this.setQuestion(question);
         question.setAnswer(this);
+    }
+
+    // 플래그 변경
+    public void changeIsDeleted() {
+        this.isDeleted = !this.isDeleted;
+    }
+
+    // 업데이트 메서드
+    public void update(String title, String content) {
+        this.title = title;
+        this.content = content;
     }
 }

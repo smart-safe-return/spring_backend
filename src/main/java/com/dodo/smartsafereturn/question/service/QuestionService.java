@@ -1,6 +1,8 @@
 package com.dodo.smartsafereturn.question.service;
 
 import com.dodo.smartsafereturn.question.dto.*;
+import com.dodo.smartsafereturn.question.entity.Question;
+import com.dodo.smartsafereturn.question.entity.QuestionStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -20,4 +22,8 @@ public interface QuestionService {
     List<QuestionResponseListDto> getList();
     // 문의 글 검색 조건 별 조회
     Page<QuestionResponseListDto> getListByCondition(QuestionSearchCondition condition, Pageable pageable);
+    // 문의 상태 변경
+    void updateStatus(Long questionId, QuestionStatus status);
+    // ID값으로 엔티티 찾기
+    Question findById(Long questionId);
 }

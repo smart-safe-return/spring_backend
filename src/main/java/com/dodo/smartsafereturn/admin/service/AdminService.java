@@ -3,6 +3,7 @@ package com.dodo.smartsafereturn.admin.service;
 import com.dodo.smartsafereturn.admin.dto.AdminCreateDto;
 import com.dodo.smartsafereturn.admin.dto.AdminResponseDto;
 import com.dodo.smartsafereturn.admin.dto.AdminUpdateDto;
+import com.dodo.smartsafereturn.admin.entity.Admin;
 
 import java.util.List;
 
@@ -18,4 +19,6 @@ public interface AdminService {
     AdminResponseDto getAdmin(Long adminNumber);
     // 관리자 정보 불러오기 (리스트)
     List<AdminResponseDto> getAdmins();
+    // ID값으로 엔티티 가져오기
+    Admin findById(Long adminNumber);
 }

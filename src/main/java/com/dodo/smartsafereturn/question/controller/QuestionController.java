@@ -2,6 +2,7 @@ package com.dodo.smartsafereturn.question.controller;
 
 import com.dodo.smartsafereturn.auth.dto.Role;
 import com.dodo.smartsafereturn.question.dto.*;
+import com.dodo.smartsafereturn.question.entity.QuestionStatus;
 import com.dodo.smartsafereturn.question.service.QuestionService;
 import com.google.api.gax.rpc.StatusCode;
 import lombok.RequiredArgsConstructor;
@@ -76,5 +77,12 @@ public class QuestionController {
 
         Page<QuestionResponseListDto> results = questionService.getListByCondition(condition, pageable);
         return ResponseEntity.ok(results);
+    }
+
+    // 상태 변경
+    @PutMapping("/{questionId}/status")
+    public ResponseEntity<Void> updateStatus(@PathVariable Long questionId, @RequestBody QuestionStatus status) {
+        questionService.updateStatus(questionId, status);
+        return ResponseEntity.ok().build();
     }
 }

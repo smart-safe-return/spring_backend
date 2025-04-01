@@ -27,6 +27,9 @@ public class Question extends BaseTimeEntity {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String content;
 
+    @Enumerated(EnumType.STRING)
+    private QuestionStatus status;
+
     @ColumnDefault("false") // 기본값 false 설정
     private Boolean isDeleted;
 
@@ -52,6 +55,7 @@ public class Question extends BaseTimeEntity {
         this.content = content;
         this.isDeleted = Boolean.FALSE;
         this.questionCategory = questionCategory;
+        this.status = QuestionStatus.IN_PROGRESS;
         this.member = member;
     }
 
@@ -73,5 +77,9 @@ public class Question extends BaseTimeEntity {
 
     public void changeDeleteFlag() {
         this.isDeleted = !this.isDeleted;
+    }
+
+    public void updateStatus(QuestionStatus changedStatus) {
+        this.status = changedStatus;
     }
 }

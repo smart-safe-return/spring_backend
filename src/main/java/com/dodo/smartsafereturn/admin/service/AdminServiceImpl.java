@@ -95,4 +95,10 @@ public class AdminServiceImpl implements AdminService {
                 )
                 .toList();
     }
+
+    @Override
+    public Admin findById(Long adminNumber) {
+        return adminRepository.findByAdminNumberAndIsDeletedIsFalse(adminNumber)
+                .orElseThrow(() -> new RuntimeException("[AdminService] getAdmin : 존재하지 않는 관리자"));
+    }
 }

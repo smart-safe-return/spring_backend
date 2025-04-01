@@ -4,6 +4,7 @@ import com.dodo.smartsafereturn.member.entity.Member;
 import com.dodo.smartsafereturn.member.repository.MemberRepository;
 import com.dodo.smartsafereturn.question.dto.*;
 import com.dodo.smartsafereturn.question.entity.Question;
+import com.dodo.smartsafereturn.question.entity.QuestionStatus;
 import com.dodo.smartsafereturn.question.repository.QuestionRepository;
 import com.dodo.smartsafereturn.questioncategory.entity.QuestionCategory;
 import com.dodo.smartsafereturn.questioncategory.repository.QuestionCategoryRepository;
@@ -105,5 +106,21 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public Page<QuestionResponseListDto> getListByCondition(QuestionSearchCondition condition, Pageable pageable) {
         return questionRepository.searchQuestionByCondition(condition, pageable);
+    }
+
+    @Transactional
+    @Override
+    public void updateStatus(Long questionId, QuestionStatus status) {
+        // 실존하는 지 체크
+        Question question = questionRepository.findByIdAndIsDeletedIsFalse(questionId)
+                .orElseThrow(() -> new RuntimeException("[QuestionService] updateStatus: 존재하지 않는 문의 글"));
+
+        question.updateStatus(status);
+    }
+
+    @Override
+    public Question findById(Long questionId) {
+        return questionRepository.findByIdAndIsDeletedIsFalse(questionId)
+                .orElseThrow(() -> new RuntimeException("[QuestionService] updateStatus: 존재하지 않는 문의 글"));
     }
 }

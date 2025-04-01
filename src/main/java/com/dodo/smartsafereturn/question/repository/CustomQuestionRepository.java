@@ -5,6 +5,7 @@ import com.dodo.smartsafereturn.question.dto.QuestionResponseListDto;
 import com.dodo.smartsafereturn.question.dto.QuestionSearchCondition;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
 
 public interface CustomQuestionRepository {
     Page<QuestionResponseListDto> searchQuestionByCondition(QuestionSearchCondition condition, Pageable pageable);

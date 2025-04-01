@@ -27,6 +27,7 @@ public class Member extends BaseTimeEntity {
     private String password;
     @Column(nullable = false)
     private String phone;
+    private String profile;
     @Column(nullable = false)
     private Boolean isDeleted;
 
@@ -42,11 +43,12 @@ public class Member extends BaseTimeEntity {
 
     // 생성자 -> 첫 가입
     @Builder
-    public Member(String id, String password, String phone) {
+    public Member(String id, String password, String phone, String profile) {
         this.id = id;
         this.password = password;
         this.phone = phone;
         this.isDeleted = false;
+        this.profile = profile;
     }
 
     // 회원 수정 : 비밀번호 or 휴대폰 번호

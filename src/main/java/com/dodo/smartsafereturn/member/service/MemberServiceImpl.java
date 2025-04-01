@@ -13,6 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+/**
+ * todo 프로필 저장 기능 추가 필요
+ */
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -32,6 +35,8 @@ public class MemberServiceImpl implements MemberService {
             log.info("[MemberService] Join() 예외 발생 : [회원 가입 로직] 이미 존재하는 회원입니다");
             throw  new RuntimeException("[회원 가입 로직] 이미 존재하는 회원입니다");
         }
+
+        // todo 클라우드 스토리지 프로필 저장 후, 사진 경로 가져오기 기능
         
         // 회원 가입
         memberRepository.save(
@@ -39,6 +44,7 @@ public class MemberServiceImpl implements MemberService {
                         .id(memberJoinDto.getId())
                         .password(passwordEncoder.encode(memberJoinDto.getPassword()))
                         .phone(memberJoinDto.getPhone())
+                        .profile(null) // 기본값 null
                         .build()
         );
     }
