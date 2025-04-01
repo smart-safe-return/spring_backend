@@ -21,11 +21,9 @@ spring:
   cloud:
     gcp:
       credentials:
-        location: {GOOGLE_CLOUD_STORAGE_LOCATION}
       project-id: {GOOGLE_CLOUD_STORAGE_PROJECT_ID}
       storage:
         credentials:
-          location: {GOOGLE_CLOUD_STORAGE_LOCATION}
         project-id: {GOOGLE_CLOUD_STORAGE_PROJECT_ID}
 
   servlet:
