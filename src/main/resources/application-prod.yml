@@ -20,6 +20,8 @@ spring:
   # google storage 세팅
   cloud:
     gcp:
+      sql:
+        enabled: false
       credentials:
       project-id: ${GOOGLE_CLOUD_STORAGE_PROJECT_ID}
       storage:
