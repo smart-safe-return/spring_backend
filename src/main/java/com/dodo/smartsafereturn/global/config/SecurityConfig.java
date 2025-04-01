@@ -77,10 +77,13 @@ public class SecurityConfig {
                                         .requestMatchers("/api/auth/login", "/api/auth/admin/login","/api/auth/logout").permitAll()
                                         .requestMatchers(HttpMethod.POST, "/api/auth/reissue").permitAll() // 리프레시 토큰 재발급 로직 경로
                                         .requestMatchers(HttpMethod.POST, "/api/member").permitAll() // 회원 가입
-                                        .requestMatchers("/api/test").permitAll()
+                                        .requestMatchers(HttpMethod.POST, "/api/member/find-id").permitAll() // 아이디 찾기 todo 구현
+                                        .requestMatchers(HttpMethod.POST, "/api/member/find-password").permitAll() // 비밀 번호 찾기 todo 구현
+                                        .requestMatchers(HttpMethod.POST, "/api/member/phone-sms-check").permitAll() // sms 휴대폰 인증 todo 구현
+                                        .requestMatchers("/api/question-category/**").hasRole("ADMIN") // 카테고리 관리는 관리자만
+                                        .requestMatchers("/api/answer/**").hasRole("ADMIN") // 답변 글 관리는 관리자만
                                         .requestMatchers("/api/test/jwtTest1").hasAnyRole("ADMIN", "USER")
-//                                        .requestMatchers("/api/**").authenticated() todo 실제 배포때 바꾸기
-                                        .requestMatchers("/api/**").permitAll()
+                                        .requestMatchers("/api/**").authenticated()
                                         .anyRequest().authenticated()
                 )
                 // 시큐리티의 아이디 비밀번호 인증 필터 대신 인증 및 jwt 발급하는 custom 필터 사용

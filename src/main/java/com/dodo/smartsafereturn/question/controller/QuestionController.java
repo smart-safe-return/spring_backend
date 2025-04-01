@@ -81,8 +81,8 @@ public class QuestionController {
 
     // 상태 변경
     @PutMapping("/{questionId}/status")
-    public ResponseEntity<Void> updateStatus(@PathVariable Long questionId, @RequestBody QuestionStatus status) {
-        questionService.updateStatus(questionId, status);
+    public ResponseEntity<Void> updateStatus(@PathVariable Long questionId, @Validated @RequestBody QuestionUpdateStateDto dto) {
+        questionService.updateStatus(questionId, dto.getStatus());
         return ResponseEntity.ok().build();
     }
 }
