@@ -3,6 +3,7 @@ package com.dodo.smartsafereturn.member.dto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @Data
 @Builder
@@ -30,4 +31,6 @@ public class MemberJoinDto {
             message = "전화번호는 010으로 시작하는 11자리 숫자여야 합니다."
     )
     private String phone;
+    // profile 사진 업로드 파일 todo 검증 어노테이션 뭐쓸지 생각
+    private MultipartFile file;
 }

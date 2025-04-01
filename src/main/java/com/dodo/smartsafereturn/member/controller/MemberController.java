@@ -6,6 +6,7 @@ import com.dodo.smartsafereturn.member.dto.MemberUpdateDto;
 import com.dodo.smartsafereturn.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -20,16 +21,16 @@ public class MemberController {
 
     private final MemberService memberService;
 
-    // 회원 가입
-    @PostMapping("")
-    public ResponseEntity<Void> joinMember(@Validated @RequestBody MemberJoinDto dto) {
+    // 회원 가입 - MultipartFile 처리를 위해 consumes 설정 / 파일 업로드 -> multipart/form-data
+    @PostMapping(value = "", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity<Void> joinMember(@Validated @ModelAttribute MemberJoinDto dto) {
         memberService.join(dto);
         return ResponseEntity.ok().build();
     }
 
-    // 회원 수정 (비밀번호 or 휴대폰 번호)
-    @PutMapping("/{memberNumber}")
-    public ResponseEntity<Void> updateMember(@PathVariable Long memberNumber, @Validated @RequestBody MemberUpdateDto dto) {
+    // 회원 수정 (비밀번호 or 휴대폰 번호 or 프로필 이미지) - MultipartFile 처리를 위해 consumes 설정 / 파일 업로드 -> multipart/form-data
+    @PutMapping(value = "/{memberNumber}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity<Void> updateMember(@Validated @ModelAttribute MemberUpdateDto dto) {
         memberService.update(dto);
         return ResponseEntity.ok().build();
     }

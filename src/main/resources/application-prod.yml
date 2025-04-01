@@ -17,10 +17,33 @@ spring:
         default_schema: ${SPRING_DATABASE_SCHEMA:gyuchanlee} # postgresql의 기본 스키마로 내 꺼 지정
   jackson:
     property-naming-strategy: SNAKE_CASE # JSON 요청 형식 스네이크로 오는것을 카멜케이스로 자동 변환 (거꾸로도 지원)
+  # google storage 세팅
+  cloud:
+    gcp:
+      credentials:
+        location: {GOOGLE_CLOUD_STORAGE_LOCATION}
+      project-id: {GOOGLE_CLOUD_STORAGE_PROJECT_ID}
+      storage:
+        credentials:
+          location: {GOOGLE_CLOUD_STORAGE_LOCATION}
+        project-id: {GOOGLE_CLOUD_STORAGE_PROJECT_ID}
+
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+# Google 클라우드 스토리지 버킷 이름 설정 (커스텀 프로퍼티)
+google:
+  cloud:
+    storage:
+      bucket-name: {GOOGLE_CLOUD_STORAGE_BUCKET}
+
 logging:
   level:
     org.hibernate.SQL: DEBUG
     org.hibernate.type.descriptor.sql: TRACE
+
 
 # JWT 설정
 jwt:

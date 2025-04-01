@@ -3,10 +3,12 @@ package com.dodo.smartsafereturn.global.handler;
 import com.dodo.smartsafereturn.safeRoute.entity.RouteState;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -39,5 +41,19 @@ public class GlobalExceptionHandler {
         response.put("message", "잘못된 요청 형식입니다");
 
         return ResponseEntity.badRequest().body(response);
+    }
+
+    @ExceptionHandler(MaxUploadSizeExceededException.class)
+    public ResponseEntity<String> handleMaxSizeException(MaxUploadSizeExceededException e) {
+        log.error("파일 크기 초과 오류: ", e);
+        return ResponseEntity.status(HttpStatus.PAYLOAD_TOO_LARGE)
+                .body("파일 크기가 제한을 초과했습니다. 최대 10MB 까지 업로드할 수 있습니다.");
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<String> handleRuntimeException(RuntimeException e) {
+        log.error("런타임 오류: ", e);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(e.getMessage());
     }
 }

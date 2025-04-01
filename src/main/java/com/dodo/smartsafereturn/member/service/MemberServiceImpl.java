@@ -1,5 +1,6 @@
 package com.dodo.smartsafereturn.member.service;
 
+import com.dodo.smartsafereturn.global.service.CloudStorageService;
 import com.dodo.smartsafereturn.member.dto.MemberJoinDto;
 import com.dodo.smartsafereturn.member.dto.MemberResponseDto;
 import com.dodo.smartsafereturn.member.dto.MemberUpdateDto;
@@ -10,6 +11,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -24,6 +27,7 @@ public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final CloudStorageService storageService;
 
     @Transactional
     @Override
@@ -36,7 +40,14 @@ public class MemberServiceImpl implements MemberService {
             throw  new RuntimeException("[회원 가입 로직] 이미 존재하는 회원입니다");
         }
 
-        // todo 클라우드 스토리지 프로필 저장 후, 사진 경로 가져오기 기능
+        // 프로필 이미지 저장
+        String profileUrl = null;
+        MultipartFile profileImage = memberJoinDto.getFile();
+
+        if (profileImage != null && !profileImage.isEmpty()) {
+            profileUrl = storageService.uploadFile(profileImage);
+            log.info("[MemberService] 프로필 이미지 업로드 완료: {}", profileUrl); // todo 테스트 후 삭제
+        }
         
         // 회원 가입
         memberRepository.save(
@@ -44,7 +55,7 @@ public class MemberServiceImpl implements MemberService {
                         .id(memberJoinDto.getId())
                         .password(passwordEncoder.encode(memberJoinDto.getPassword()))
                         .phone(memberJoinDto.getPhone())
-                        .profile(null) // 기본값 null
+                        .profile(profileUrl) // 기본값 null
                         .build()
         );
     }
@@ -54,7 +65,36 @@ public class MemberServiceImpl implements MemberService {
     public void update(MemberUpdateDto memberUpdateDto) {
         Member member = memberRepository.findByMemberNumberAndIsDeletedIsFalse(memberUpdateDto.getMemberNumber())
                 .orElseThrow(() -> new RuntimeException("[MemberService] update() : 존재하지 않는 회원"));
-        
+
+        // 비밀번호 암호화
+        if (memberUpdateDto.getPassword() != null && !memberUpdateDto.getPassword().isEmpty()) {
+            memberUpdateDto.setPassword(passwordEncoder.encode(memberUpdateDto.getPassword()));
+        }
+
+        // 기존 프로필 이미지 정리
+        String oldProfile = null;
+        if (member.getProfile() != null && !member.getProfile().isEmpty()) {
+            oldProfile = member.getProfile();
+        }
+
+        // 변경할 이미지 있을 시, 변경
+        MultipartFile profileImage = memberUpdateDto.getFile();
+        if (profileImage != null && !profileImage.isEmpty()) {
+            String updatedProfileUrl = storageService.uploadFile(profileImage);
+            memberUpdateDto.setProfile(updatedProfileUrl);
+            log.info("[MemberService] 프로필 이미지 업데이트 완료: {}", updatedProfileUrl);
+
+            // 변경 후, 기존 이미지 파일 삭제
+            if (StringUtils.hasText(oldProfile)) {
+                try {
+                    storageService.deleteFile(oldProfile);
+                } catch (Exception e) {
+                    // 기존 이미지 삭제 실패 시 로그만 남기고 진행 (트랜잭션 롤백 방지)
+                    log.error("기존 프로필 이미지 삭제 실패: {}, 사유: {}", oldProfile, e.getMessage());
+                }
+            }
+        }
+
         // dirty checking 활용
         member.updateMember(memberUpdateDto);
     }
@@ -66,6 +106,7 @@ public class MemberServiceImpl implements MemberService {
         // 존재 여부 체크
         Member member = memberRepository.findByMemberNumberAndIsDeletedIsFalse(memberNumber)
                 .orElseThrow(() -> new RuntimeException("[MemberService] delete() : 존재하지 않는 회원"));
+
         // is_Deleted 플래그 변경 -> dirty checking
         if (!member.getIsDeleted()) {
             member.changeDeleteFlag();
@@ -83,6 +124,7 @@ public class MemberServiceImpl implements MemberService {
                 .id(member.getId())
                 .phone(member.getPhone())
                 .createdDate(member.getCreatedDate())
+                .profile(member.getProfile())
                 .build();
     }
 
@@ -95,6 +137,7 @@ public class MemberServiceImpl implements MemberService {
                         .id(m.getId())
                         .phone(m.getPhone())
                         .createdDate(m.getCreatedDate())
+                        .profile(m.getProfile())
                         .build())
                 .toList();
     }

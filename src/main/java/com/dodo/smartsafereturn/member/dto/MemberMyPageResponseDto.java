@@ -19,4 +19,5 @@ public class MemberMyPageResponseDto {
     private String id;
     private String phone;
     private LocalDateTime createdDate;
+    private String profile;
 }

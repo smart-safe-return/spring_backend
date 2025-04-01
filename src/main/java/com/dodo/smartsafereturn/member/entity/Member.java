@@ -59,6 +59,9 @@ public class Member extends BaseTimeEntity {
         if (dto.getPhone() != null && !dto.getPhone().isEmpty() && !dto.getPhone().isBlank()) {
             this.phone = dto.getPhone();
         }
+        if (dto.getProfile() != null && !dto.getProfile().isEmpty() && !dto.getProfile().isBlank()) {
+            this.profile = dto.getProfile();
+        }
     }
 
     // 양방향 연관관계 편의 메서드 (EmergencyContact)

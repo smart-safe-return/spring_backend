@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "winged-woods-442503-f1",
+  "private_key_id": "56f6c129d1832abbaf5b42c5018f7cea5cf0fc65",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCX+lod58H8Fc5y\nkBW7U6ec65Rye705SThlWaY6vCi/IDaNkIx8YBm+OkYwWDLlRIjK6z8bWWB2bJnt\ngSgwXb6Ktto8o/Luqv/Ti0BsaA9RQwjFadzB772AdxnWLkgcuWy4IIMXqqlv/pwz\nyZ44x1TT+QqB6SowbtpMcxz/kW1I5Fr5a1UzuYhYzAGJnTxYPOcRUtIvp7FcV8SL\nyXMxy7o8vRyVJyQQGHpGaOYd5w6Q7URS2PDU7lsCtp2aU/ZOmVthHUFeLv8BsyaS\nwpmjMyckO6YgBHHBtBPB5VNWoiaou93e9lnW8PHevIgraX/dmrsveEE9GJzxomye\npEuMpUBfAgMBAAECgf9r7lYlSVSEbZWwKS1tNKNA/0hQBaRmiqNRVu1Kjhsm3BJY\nPB6c+raIpzyAZ6yp1zN2I9aP7lXEiZcWba0m05P+ZXshghKYlHXzWg81ZBPy5wEO\nvBYBfcEg+tbyJzr7oXjtI2Tih26mOF0Y4G9zqEOzqQxg+1O2Eci7gmduU+M/ETf7\nwld2fQZr4rnABkNmaDXFjfUO2k2sauOLZBGnlIbmAaIUN8tJRCk9wccQZRy7iph5\nVgSiYM7y3RDcMb37Ir8zEnJTN4Zmi4sCKIrzoz4mOBSbxtc+IQoKiDv9kLFLx7wr\n2yfFRxJa7xURUiVSaS9HpW7kF/8QSTxzbCf9BPUCgYEAxts6hDdFyhTkGu9R7itO\n+qiM8zbHs7dep8ERFi2gnxK4wzJZe/GE2BmcRMis/+PGqKxhEg0rKieUfgt669hB\n+HrvvuBBDlAIZA8RYXvMhdX1aEZ1EURy2CId64w2I4alCb1ugrEriFWBauoLogSL\n1+V7BECtQBzaVaUQ9K/SHnsCgYEAw6aI9ZvN/FkLYhspHQ2aeZ2VIdwrI6AqvaMr\nuGxffbSqgy7p/0COdFj/nps5s2edExlSus7JVk4+3DJcSB3pnT3XktRnkj3H3g8i\nOhxsedrB1EUZqCpv5fqbo0b+kvPuffs4vpk4SNrWaoj9fdfXUEFKmW8IJKpbrb08\n6p668m0CgYB7tn/dKZXddsnCiAjspzznbFzkIrxy7i2RJ+e9aH14+WjA514MYeFH\noAc8M6yNNeOtpDBvzomAHEehcvryJwRD1he5JELU6K2PsmAZya8fxFB8ovjJ2U+p\nbvA2TnCQAYBDYvqRjC+NDcUKArlh/noRws6ZgrNGI60hgyPdVlTeaQKBgQCK6f9s\ng8dpWL/gVHCIlFQN7XkppW1ryhkOtIAiXbAfTNuUcQbrmSaMLXSxZH0/iF3aZax7\nvr7tbHjtV0R2X+azImmhcvZmuz7hx9UBdZT/n/bnhHiHEjqJC7rd31Z5eIDpKipM\nCfYQpHCBC+sQIuRZs0IIVvFtNxgI78gEvdb2sQKBgQCveYPMEL5QaCkDktxgRFiC\ny7rtj3xCVZ/OFDedgdBZAB749yX/ePIP1+NTIKMD7aHBVbFhfB00dOFanVE/TXYQ\nDsjFaKIEDz4HP35xcWAhxFrvsxtoxWzlDmY/49fcOGJScgKAWZO6iQbpHfs5NCmL\nPmBJ1IJv9K5ojPYOAjhkNA==\n-----END PRIVATE KEY-----\n",
+  "client_email": "team2-646@winged-woods-442503-f1.iam.gserviceaccount.com",
+  "client_id": "116193777849444352144",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/team2-646%40winged-woods-442503-f1.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
