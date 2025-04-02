@@ -17,8 +17,8 @@ import java.util.List;
 @Slf4j
 public class QuestionCategory {
 
-    @Id
-    @Column(name = "question_category_id", columnDefinition = "serial")
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "question_category_id")
     private Long id;
 
     private String category;

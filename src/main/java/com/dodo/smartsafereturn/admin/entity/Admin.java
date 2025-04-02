@@ -18,8 +18,8 @@ import java.util.List;
 @Slf4j
 public class Admin extends BaseTimeEntity {
 
-    @Id
-    @Column(name = "admin_number", columnDefinition = "serial")
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "admin_number")
     private Long adminNumber;
 
     @Column(unique = true, nullable = false)

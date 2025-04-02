@@ -14,8 +14,8 @@ import org.locationtech.jts.geom.Point;
 @Slf4j
 public class MessageLog extends BaseTimeEntity {
 
-    @Id
-    @Column(name = "message_log_id", columnDefinition = "serial")
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "message_log_id")
     private Long id;
 
     @Column(nullable = false, columnDefinition = "TEXT")

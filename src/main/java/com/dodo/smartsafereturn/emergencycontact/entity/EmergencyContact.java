@@ -13,8 +13,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class EmergencyContact extends BaseTimeEntity {
 
-    @Id
-    @Column(name = "emergency_contact_id", columnDefinition = "serial")
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "emergency_contact_id")
     private Long id;
 
     private String name;

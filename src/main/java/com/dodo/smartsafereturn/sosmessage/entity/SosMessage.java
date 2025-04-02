@@ -13,8 +13,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class SosMessage extends BaseTimeEntity {
 
-    @Id
-    @Column(name = "sos_message_id", columnDefinition = "serial")
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "sos_message_id")
     private Long id;
 
     @Column(nullable = false, columnDefinition = "TEXT")

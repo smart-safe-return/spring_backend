@@ -18,8 +18,8 @@ import java.util.List;
 @Slf4j
 public class Member extends BaseTimeEntity {
 
-    @Id
-    @Column(name = "member_number", columnDefinition = "serial")
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "member_number")
     private Long memberNumber;
     @Column(nullable = false, unique = true)
     private String id;

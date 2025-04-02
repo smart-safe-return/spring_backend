@@ -19,8 +19,8 @@ import java.util.List;
 @Slf4j
 public class SafeRoute extends BaseTimeEntity {
 
-    @Id
-    @Column(name = "safe_route_id", columnDefinition = "serial")
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "safe_route_id")
     private Long id;
 
     @Column(nullable = false)

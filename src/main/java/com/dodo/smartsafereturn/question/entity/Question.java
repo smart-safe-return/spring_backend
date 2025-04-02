@@ -17,8 +17,8 @@ import org.hibernate.annotations.ColumnDefault;
 @Slf4j
 public class Question extends BaseTimeEntity {
 
-    @Id
-    @Column(name = "question_id", columnDefinition = "serial")
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "question_id")
     private Long id;
 
     @Column(nullable = false, columnDefinition = "TEXT")
