@@ -21,11 +21,10 @@ spring:
   cloud:
     gcp:
       sql:
-        enabled: false
-#      credentials:
-#      project-id: ${GOOGLE_CLOUD_STORAGE_PROJECT_ID}
+        enabled: true
+        instance-connection-name: ${SPRING_DATABASE_HOST}
+        database-name: ${SPRING_DATABASE_NAME}
       storage:
-        credentials:
         project-id: ${GOOGLE_CLOUD_STORAGE_PROJECT_ID}
 
   servlet:
