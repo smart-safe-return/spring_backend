@@ -20,7 +20,10 @@ public class MessageLogController {
 
     private final MessageLogService messageLogService;
 
-    // sms 메시지 등록
+    /**
+     * sms 메시지 등록 + coolSms 메시지 보내기
+     * - safeRoute 시간 내로 도착 실패 시 -> 프론트에서 /api/message-log [POST] 요청
+     */
     @PostMapping("")
     public ResponseEntity<?> save(@Validated @RequestBody MessageLogCreateDto dto) {
         messageLogService.save(dto);

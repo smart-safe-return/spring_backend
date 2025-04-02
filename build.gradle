@@ -58,6 +58,8 @@ dependencies {
     implementation 'net.postgis:postgis-jdbc:2.5.0'
     // CoolSms
     implementation 'net.nurigo:sdk:4.3.2'
+    // postgis의 JTS 지리 타입 변환
+    implementation 'org.n52.jackson:jackson-datatype-jts:1.2.10'
 }
 
 tasks.named('test') {

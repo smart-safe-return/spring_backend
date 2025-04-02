@@ -20,4 +20,6 @@ public class MessageLogCreateDto {
     private String message;
     // sms 발송 위치 데이터
     private Point location;
+    // cool sms 받을 비상연락망 검색용 member_number
+    private Long numberNumber;
 }

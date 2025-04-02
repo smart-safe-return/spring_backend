@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface MessageLogService {
 
-    // sms 메시지 등록
+    // sms 메시지 등록 + 실제 sms 전송
     void save(MessageLogCreateDto dto);
     // sms 메시지 삭제
     void delete(Long messageLogId);

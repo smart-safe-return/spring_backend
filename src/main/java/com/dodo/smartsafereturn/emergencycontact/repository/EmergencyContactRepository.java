@@ -11,6 +11,6 @@ public interface EmergencyContactRepository extends JpaRepository<EmergencyConta
 
     boolean existsByMember_memberNumberAndPhone(Long memberNumber, String phone);
 
-    @Query("select ec from EmergencyContact ec where ec.member.memberNumber = :memberNumber")
+    @Query("select ec from EmergencyContact ec where ec.member.memberNumber = :memberNumber and ec.member.isDeleted = false ")
     List<EmergencyContact> findMemberContacts(@Param("memberNumber") Long memberNumber);
 }
