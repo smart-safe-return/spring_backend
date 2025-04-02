@@ -74,6 +74,7 @@ public class SecurityConfig {
                         auth ->
                                 auth
                                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                                        .requestMatchers("/swagger-ui/**", "/api-docs/**", "/swagger-ui.html").permitAll()
                                         .requestMatchers("/api/auth/login", "/api/auth/admin/login","/api/auth/logout").permitAll()
                                         .requestMatchers(HttpMethod.POST, "/api/auth/reissue").permitAll() // 리프레시 토큰 재발급 로직 경로
                                         .requestMatchers(HttpMethod.POST, "/api/member").permitAll() // 회원 가입

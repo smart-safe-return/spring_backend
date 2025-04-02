@@ -4,6 +4,11 @@ import com.dodo.smartsafereturn.member.dto.MemberJoinDto;
 import com.dodo.smartsafereturn.member.dto.MemberResponseDto;
 import com.dodo.smartsafereturn.member.dto.MemberUpdateDto;
 import com.dodo.smartsafereturn.member.service.MemberService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
@@ -17,6 +22,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/member")
 @RequiredArgsConstructor
+@Tag(name = "회원 API", description = "회원 API CRUD 및 마이페이지 관련 기능 구현")
 public class MemberController {
 
     private final MemberService memberService;
@@ -43,6 +49,18 @@ public class MemberController {
     }
 
     // 회원 한건 조회 (마이페이지 용)
+    @Operation(
+            summary = "마이페이지용 회원 한 건 조회",
+            description = "member_number PK 값으로 회원 한 명의 데이터를 조회합니다.",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "회원 한 건 조회 성공",
+                            content = @Content(schema = @Schema(implementation = MemberResponseDto.class))
+                    ),
+                    @ApiResponse(responseCode = "400", description = "데이터를 찾을 수 없음")
+            }
+    )
     @GetMapping("/{memberNumber}")
     public ResponseEntity<MemberResponseDto> getMember(@PathVariable Long memberNumber) {
         MemberResponseDto member = memberService.getMember(memberNumber);

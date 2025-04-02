@@ -9,16 +9,12 @@ import com.dodo.smartsafereturn.messagelog.repository.MessageLogRepository;
 import com.dodo.smartsafereturn.safeRoute.entity.RouteState;
 import com.dodo.smartsafereturn.safeRoute.entity.SafeRoute;
 import com.dodo.smartsafereturn.safeRoute.repository.SafeRouteRepository;
-import com.dodo.smartsafereturn.safeRoute.service.SafeRouteService;
 import com.dodo.smartsafereturn.sms.service.SmsService;
-import com.dodo.smartsafereturn.sosmessage.dto.SosMessageResponseDto;
-import com.dodo.smartsafereturn.sosmessage.service.SosMessageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
