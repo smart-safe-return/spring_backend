@@ -35,6 +35,7 @@ public class MessageLogServiceImpl implements MessageLogService {
                 MessageLog.builder()
                         .message(dto.getMessage())
                         .safeRoute(safeRoute)
+                        .location(dto.getLocation())
                         .build()
         );
 
@@ -62,6 +63,7 @@ public class MessageLogServiceImpl implements MessageLogService {
                 .messageLogId(messageLog.getId())
                 .message(messageLog.getMessage())
                 .createDate(messageLog.getCreatedDate())
+                .location(messageLog.getLocation())
                 .build();
     }
 

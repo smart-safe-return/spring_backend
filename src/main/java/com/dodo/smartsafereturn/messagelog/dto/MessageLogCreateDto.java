@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.locationtech.jts.geom.Point;
 
 @Data
 @Builder
@@ -17,4 +18,6 @@ public class MessageLogCreateDto {
     private Long safeRouteId;
     @NotBlank(message = "메시지는 비어있으면 안됨")
     private String message;
+    // sms 발송 위치 데이터
+    private Point location;
 }

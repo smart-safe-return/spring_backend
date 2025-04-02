@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.locationtech.jts.geom.LineString;
 
 import java.time.LocalDateTime;
 
@@ -22,4 +23,5 @@ public class SafeRouteResponseDto {
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private RouteState isSuccess;
+    private LineString routePath;
 }

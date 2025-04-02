@@ -42,6 +42,7 @@ public class SafeRouteServiceImpl implements SafeRouteService {
                         .startTime(dto.getStartTime())
                         .endTime(dto.getEndTime())
                         .member(member)
+                        .routePath(dto.getRoutePath()) // todo 추후 받아서 넣기
                         .build()
         );
 
@@ -102,6 +103,7 @@ public class SafeRouteServiceImpl implements SafeRouteService {
                 .startTime(safeRoute.getStartTime())
                 .endTime(safeRoute.getEndTime())
                 .isSuccess(safeRoute.getIsSuccess())
+                .routePath(safeRoute.getRoutePath())
                 .build();
     }
 }

@@ -33,8 +33,9 @@ public class MessageLog extends BaseTimeEntity {
 
     // 첫 생성
     @Builder
-    public MessageLog(String message, SafeRoute safeRoute) {
+    public MessageLog(String message, SafeRoute safeRoute, Point location) {
         this.message = message;
         this.safeRoute = safeRoute;
+        this.location = location;
     }
 }

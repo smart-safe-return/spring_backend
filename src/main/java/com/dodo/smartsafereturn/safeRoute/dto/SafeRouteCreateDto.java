@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.locationtech.jts.geom.LineString;
 
 import java.time.LocalDateTime;
 
@@ -25,4 +26,6 @@ public class SafeRouteCreateDto {
     private LocalDateTime startTime;
     @NotNull(message = "도착시간을 적어주세요")
     private LocalDateTime endTime;
+    // 경로 데이터
+    private LineString routePath;
 }

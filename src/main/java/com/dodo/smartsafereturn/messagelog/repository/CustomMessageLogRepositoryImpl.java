@@ -27,7 +27,8 @@ public class CustomMessageLogRepositoryImpl implements CustomMessageLogRepositor
                         new QMessageLogResponseDto(
                                 messageLog.id,
                                 messageLog.message,
-                                messageLog.createdDate
+                                messageLog.createdDate,
+                                messageLog.location
                         )
                 )
                 .from(messageLog)
@@ -43,7 +44,8 @@ public class CustomMessageLogRepositoryImpl implements CustomMessageLogRepositor
                         new QMessageLogResponseDto(
                                 messageLog.id,
                                 messageLog.message,
-                                messageLog.createdDate
+                                messageLog.createdDate,
+                                messageLog.location
                         )
                 )
                 .from(messageLog)
@@ -60,7 +62,8 @@ public class CustomMessageLogRepositoryImpl implements CustomMessageLogRepositor
                         new QMessageLogResponseDto(
                                 messageLog.id,
                                 messageLog.message,
-                                messageLog.createdDate
+                                messageLog.createdDate,
+                                messageLog.location
                         )
                 )
                 .from(messageLog)
