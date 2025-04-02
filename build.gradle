@@ -52,6 +52,10 @@ dependencies {
     // Spring Cloud Google Cloud 사용
     implementation 'com.google.cloud:spring-cloud-gcp-starter:4.8.3'
     implementation 'com.google.cloud:spring-cloud-gcp-starter-storage:4.8.3'
+    // Hibernate Spatial - PostGIS 지원
+    implementation 'org.hibernate:hibernate-spatial:6.5.0.Final'
+    // PostGIS JDBC 드라이버
+    implementation 'net.postgis:postgis-jdbc:2.5.0'
 }
 
 tasks.named('test') {

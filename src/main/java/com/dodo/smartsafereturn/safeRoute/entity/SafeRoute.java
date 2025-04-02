@@ -7,6 +7,7 @@ import com.dodo.smartsafereturn.safeRoute.dto.SafeRouteUpdateDto;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
+import org.locationtech.jts.geom.LineString;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -18,8 +19,8 @@ import java.util.List;
 @Slf4j
 public class SafeRoute extends BaseTimeEntity {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "safe_route_id")
+    @Id
+    @Column(name = "safe_route_id", columnDefinition = "serial")
     private Long id;
 
     @Column(nullable = false)
@@ -37,6 +38,10 @@ public class SafeRoute extends BaseTimeEntity {
 
     @Column(nullable = false)
     private LocalDateTime endTime;
+
+    // 경로 전체의 LineString (이동 경로)
+    @Column(name = "route_path", columnDefinition = "geometry(LineString,4326)")
+    private LineString routePath;
 
     // 양방향으로 member 연결 -> 회원에서 조회해야 함
     @Setter // 연관관계 메서드 활용을 위해서만 사용

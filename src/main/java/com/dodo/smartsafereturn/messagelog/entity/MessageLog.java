@@ -5,6 +5,7 @@ import com.dodo.smartsafereturn.safeRoute.entity.SafeRoute;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
+import org.locationtech.jts.geom.Point;
 
 @Entity
 @Getter
@@ -13,12 +14,16 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class MessageLog extends BaseTimeEntity {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "message_log_id")
+    @Id
+    @Column(name = "message_log_id", columnDefinition = "serial")
     private Long id;
 
     @Column(nullable = false, columnDefinition = "TEXT")
     private String message;
+
+    // 도착 위치의 지리적 좌표 포인트
+    @Column(name = "location", columnDefinition = "geometry(Point,4326)")
+    private Point location;
 
     // safeRoute 와 양방향
     @Setter

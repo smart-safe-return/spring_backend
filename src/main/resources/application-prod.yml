@@ -9,6 +9,7 @@ spring:
     username: ${SPRING_DATABASE_USERNAME}
     password: ${SPRING_DATABASE_PASSWORD}
   jpa:
+    database-platform: org.hibernate.spatial.dialect.postgis.PostgisPG10Dialect
     hibernate:
       ddl-auto: validate
     properties:
