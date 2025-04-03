@@ -54,6 +54,12 @@ public class QuestionController {
         return ResponseEntity.ok(questionService.getOne(questionId));
     }
 
+    // 문의 글 조회 - 회원 조건
+    @GetMapping("/member/{memberNumber}")
+    public ResponseEntity<List<QuestionResponseDto>> getQuestionByMemberNumber(@PathVariable Long memberNumber) {
+        return ResponseEntity.ok(questionService.getOneByMember(memberNumber));
+    }
+
     // 문의 글 전체 조회
     @GetMapping("/all")
     public ResponseEntity<?> getAllQuestions() {

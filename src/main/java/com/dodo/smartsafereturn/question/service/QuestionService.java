@@ -18,6 +18,8 @@ public interface QuestionService {
     void delete(Long questionId);
     // 문의 글 한 건 조회
     QuestionResponseDto getOne(Long questionId);
+    // 문의 글 회원 별 조회
+    List<QuestionResponseDto> getOneByMember(Long memberNumber);
     // 문의 글 전체 조회
     List<QuestionResponseListDto> getList();
     // 문의 글 검색 조건 별 조회

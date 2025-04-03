@@ -86,6 +86,11 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
+    public List<QuestionResponseDto> getOneByMember(Long memberNumber) {
+        return questionRepository.getQuestionByMemberNumber(memberNumber);
+    }
+
+    @Override
     public List<QuestionResponseListDto> getList() {
         List<Question> list = questionRepository.findAll();
         return list
@@ -98,6 +103,7 @@ public class QuestionServiceImpl implements QuestionService {
                         .title(q.getTitle())
                         .createdDate(q.getCreatedDate())
                         .modifiedDate(q.getModifiedDate())
+                        .status(q.getStatus())
                         .build()
                 )
                 .toList();

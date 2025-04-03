@@ -36,7 +36,8 @@ public class CustomQuestionRepositoryImpl implements CustomQuestionRepository {
                         question.questionCategory.category,
                         question.title,
                         question.createdDate,
-                        question.modifiedDate
+                        question.modifiedDate,
+                        question.status
                 ))
                 .from(question)
                 .join(question.member, member)
@@ -126,7 +127,8 @@ public class CustomQuestionRepositoryImpl implements CustomQuestionRepository {
                         question.title,
                         question.content,
                         question.createdDate,
-                        question.modifiedDate
+                        question.modifiedDate,
+                        question.status
                 ))
                 .from(question)
                 .where(
@@ -134,5 +136,28 @@ public class CustomQuestionRepositoryImpl implements CustomQuestionRepository {
                         question.isDeleted.isFalse()
                 )
                 .fetchOne();
+    }
+
+    // 회원 별 문의 조회
+    @Override
+    public List<QuestionResponseDto> getQuestionByMemberNumber(Long memberNumber) {
+        return query
+                .select(new QQuestionResponseDto(
+                        question.id,
+                        question.member.id,
+                        question.questionCategory.category,
+                        question.title,
+                        question.content,
+                        question.createdDate,
+                        question.modifiedDate,
+                        question.status
+                ))
+                .from(question)
+                .join(question.member, member)
+                .where(
+                        member.memberNumber.eq(memberNumber),
+                        question.isDeleted.isFalse()
+                )
+                .fetch();
     }
 }
