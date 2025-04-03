@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -106,6 +107,7 @@ public class MemberController {
             @Parameter(name = "phone", description = "휴대폰 번호", example = "01012345678"),
             @Parameter(name = "file", description = "프로필 이미지", schema = @Schema(type = "string", format = "binary"))
     })
+    @SecurityRequirement(name = "bearerAuth")
     @PutMapping(value = "/{memberNumber}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<Void> updateMember(@Validated @ModelAttribute MemberUpdateDto dto) {
         memberService.update(dto);
@@ -113,8 +115,28 @@ public class MemberController {
     }
 
     // 회원 탈퇴
+    @Operation(
+            summary = "회원 탈퇴",
+            description = "path variable 로 member_number 회원 PK 값을 가져와서 탈퇴 처리 (is_delete 플래그 변경)",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "회원 탈퇴 성공",
+                            content = @Content(schema = @Schema(implementation = Void.class))
+                    ),
+                    @ApiResponse(
+                            responseCode = "400",
+                            description = "회원 탈퇴 실패",
+                            content = @Content(schema = @Schema(implementation = RuntimeException.class))
+                    )
+            }
+    )
+    @SecurityRequirement(name = "bearerAuth")
     @DeleteMapping("/{memberNumber}")
-    public ResponseEntity<Void> deleteMember(@PathVariable Long memberNumber) {
+    public ResponseEntity<Void> deleteMember(
+            @Parameter(description = "회원 PK (member_number)", required = true, example = "1")
+            @PathVariable Long memberNumber
+    ) {
         memberService.delete(memberNumber);
         return ResponseEntity.ok().build();
     }
@@ -152,6 +174,7 @@ public class MemberController {
                     )
             }
     )
+    @SecurityRequirement(name = "bearerAuth")
     @GetMapping("/{memberNumber}")
     public ResponseEntity<MemberResponseDto> getMember(@PathVariable Long memberNumber) {
         MemberResponseDto member = memberService.getMember(memberNumber);
@@ -159,6 +182,48 @@ public class MemberController {
     }
 
     // 회원 리스트 조회
+    @Operation(
+            summary = "회원 전체 리스트 조회 (활성화된 회원 List)",
+            description = "회원 데이터 List 를 조회합니다. 제한없이 회원 정보를 볼 수 있기 때문에 어드민만 접근 가능하도록 설정해야 합니다.",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "회원 리스트 조회 성공",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = MemberResponseDto.class),
+                                    examples = {
+                                            @ExampleObject(
+                                                    name = "회원 정보 응답 예시",
+                                                    summary = "성공 시, 회원 정보 응답 dto JSON 정보",
+                                                    value = "[\n" +
+                                                            "  {\n" +
+                                                            "    \"memberNumber\": 1,\n" +
+                                                            "    \"id\": \"ExampleMan\",\n" +
+                                                            "    \"phone\": \"01012345678\",\n" +
+                                                            "    \"createdDate\": \"2025-04-03T01:10:01.759Z\",\n" +
+                                                            "    \"profile\": \"https://storage.googleapis.com/safe-return-bucket/member/profile/[example.png]\"\n" +
+                                                            "  },\n" +
+                                                            "  {\n" +
+                                                            "    \"memberNumber\": 2,\n" +
+                                                            "    \"id\": \"ExampleWoman\",\n" +
+                                                            "    \"phone\": \"01087654321\",\n" +
+                                                            "    \"createdDate\": \"2025-04-02T23:15:42.123Z\",\n" +
+                                                            "    \"profile\": \"https://storage.googleapis.com/safe-return-bucket/member/profile/[example2.png]\"\n" +
+                                                            "  }\n" +
+                                                            "]"
+                                            )
+                                    }
+                            )
+                    ),
+                    @ApiResponse(
+                            responseCode = "400",
+                            description = "데이터를 찾을 수 없음",
+                            content = @Content(schema = @Schema(implementation = RuntimeException.class))
+                    )
+            }
+    )
+    @SecurityRequirement(name = "bearerAuth")
     @GetMapping("")
     public ResponseEntity<List<MemberResponseDto>> getMembers() {
         List<MemberResponseDto> members = memberService.getMembers();

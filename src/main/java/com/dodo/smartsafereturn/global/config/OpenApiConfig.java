@@ -29,12 +29,8 @@ public class OpenApiConfig {
                 .scheme("bearer")
                 .bearerFormat("JWT");
 
-        // SecurityRequirement: 전체 API에 적용할 기본 보안 요구사항을 정의합니다.
-        SecurityRequirement securityRequirement = new SecurityRequirement().addList(securitySchemeName);
-
         return new OpenAPI()
                 .info(info)
-                .components(new Components().addSecuritySchemes(securitySchemeName, securityScheme)) // Components: 재사용 가능한 OpenAPI 구성 요소(보안 스키마, 스키마 등)를 정의합니다
-                .addSecurityItem(securityRequirement);
+                .components(new Components().addSecuritySchemes(securitySchemeName, securityScheme)); // Components: 재사용 가능한 OpenAPI 구성 요소(보안 스키마, 스키마 등)를 정의합니다
     }
 }
