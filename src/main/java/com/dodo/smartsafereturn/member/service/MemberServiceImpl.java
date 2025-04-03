@@ -16,9 +16,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-/**
- * todo 프로필 저장 기능 추가 필요
- */
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -46,7 +43,7 @@ public class MemberServiceImpl implements MemberService {
 
         if (profileImage != null && !profileImage.isEmpty()) {
             profileUrl = storageService.uploadFile(profileImage);
-            log.info("[MemberService] 프로필 이미지 업로드 완료: {}", profileUrl); // todo 테스트 후 삭제
+            log.info("[MemberService] 프로필 이미지 업로드 완료: {}", profileUrl);
         }
         
         // 회원 가입

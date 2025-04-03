@@ -21,10 +21,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SafeRouteServiceImpl implements SafeRouteService {
 
-    /**
-     * todo 2025-03-28 service 구현 / Postman 테스트 필요
-     */
-    
     private final SafeRouteRepository safeRouteRepository;
     private final MemberRepository memberRepository;
 
@@ -42,7 +38,7 @@ public class SafeRouteServiceImpl implements SafeRouteService {
                         .startTime(dto.getStartTime())
                         .endTime(dto.getEndTime())
                         .member(member)
-                        .routePath(dto.getRoutePath()) // todo 추후 받아서 넣기
+                        .routePath(dto.getRoutePath())
                         .build()
         );
 

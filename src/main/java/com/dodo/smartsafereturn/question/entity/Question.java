@@ -42,8 +42,7 @@ public class Question extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_number")
     private Member member;
-    
-    // todo JPA OneToOne 연관관계 주인이 아닌 곳에서 Eager 로딩 강제되는 것 생각해보기
+
     @Setter
     @OneToOne(mappedBy = "question")
     private Answer answer;
