@@ -10,4 +10,6 @@ public interface SmsService {
     void sendSmsToMany(List<String> toList, String content);
     // 잔액 조회
     long getBalance();
+    // 포인 잔액 조회
+    long getPoint();
 }

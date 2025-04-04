@@ -9,5 +9,6 @@ public class InsufficientBalanceException extends RuntimeException {
 
     private final String message;
     private final long currentBalance;
+    private final long currentPoint;
 
 }

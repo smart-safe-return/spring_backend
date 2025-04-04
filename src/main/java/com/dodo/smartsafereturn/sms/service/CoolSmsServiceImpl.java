@@ -30,7 +30,7 @@ public class CoolSmsServiceImpl implements SmsService {
     private long costPerSms;
 
     // 최소 필요 잔액 (원 단위)
-    @Value("${cool-sms.minimum-balance: 50}")
+    @Value("${cool-sms.minimum-balance: 20}")
     private long minimumBalance;
 
     // 단일 메시지 보내기
@@ -98,16 +98,35 @@ public class CoolSmsServiceImpl implements SmsService {
         }
     }
 
+    // 포인트 조회 메서드
+    @Override
+    public long getPoint() {
+        try {
+            Balance balance = messageService.getBalance();
+            log.info("[CoolSmsServiceImpl] Current point: {}", balance.getPoint());
+            return balance.getPoint() != null ? balance.getPoint().longValue() : -1;
+        } catch (Exception e) {
+            log.error("[CoolSmsServiceImpl] Failed to get point: {}", e.getMessage(), e);
+            throw new RuntimeException("포인트 조회 실패", e);
+        }
+    }
+
     // 잔액이 충분한지 확인하는 메서드
     private void checkSufficientBalance(int messageCount) {
         long currentBalance = getBalance();
         long requiredBalance = costPerSms * messageCount;
+        long currentPoint = getPoint();
 
-        if (currentBalance < requiredBalance || currentBalance < minimumBalance) {
-            log.warn("[CoolSmsServiceImpl] Insufficient balance: current={}, required={}",
-                    currentBalance, Math.max(requiredBalance, minimumBalance));
-            throw new InsufficientBalanceException("SMS 발송을 위한 잔액이 부족합니다. 현재 잔액: " + currentBalance + "원",
-                    currentBalance);
+        // CoolSMS는 보통 포인트를 우선 사용하고, 포인트가 부족하면 현금 잔액을 사용합니다
+        // 포인트나 현금 중 하나라도 충분하면 SMS 발송 가능
+        boolean hasEnoughPoint = currentPoint >= requiredBalance;
+        boolean hasEnoughBalance = currentBalance >= requiredBalance;
+
+        if (!hasEnoughPoint && !hasEnoughBalance) {
+            log.warn("[CoolSmsServiceImpl] Insufficient balance: current={}, point={}, required={}",
+                    currentBalance, currentPoint, Math.max(requiredBalance, minimumBalance));
+            throw new InsufficientBalanceException("SMS 발송을 위한 잔액이 부족합니다. 현재 잔액: " + currentBalance + "원, 현재 포인트: " + currentPoint,
+                    currentBalance, currentPoint);
         }
     }
 
