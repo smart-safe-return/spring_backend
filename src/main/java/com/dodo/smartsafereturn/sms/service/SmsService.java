@@ -8,4 +8,6 @@ public interface SmsService {
     void sendSms(String to, String content);
     // 여러명에게 보내기
     void sendSmsToMany(List<String> toList, String content);
+    // 잔액 조회
+    long getBalance();
 }

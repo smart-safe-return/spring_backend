@@ -1,6 +1,7 @@
 package com.dodo.smartsafereturn.global.handler;
 
 import com.dodo.smartsafereturn.safeRoute.entity.RouteState;
+import com.dodo.smartsafereturn.sms.exception.InsufficientBalanceException;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -56,4 +57,11 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(e.getMessage());
     }
+
+    @ExceptionHandler(InsufficientBalanceException.class)
+    public ResponseEntity<String> handleInsufficientBalanceException(InsufficientBalanceException e) {
+        log.error("잔액 부족 예외 발생: {}", e.getMessage());
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.PAYMENT_REQUIRED); // 402 Payment Required
+    }
+
 }

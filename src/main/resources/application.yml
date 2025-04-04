@@ -13,3 +13,8 @@ springdoc:
     tags-sorter: alpha     # 태그 알파벳 순 정렬
     operations-sorter: alpha  # 작업 알파벳 순 정렬
   packages-to-scan: com.dodo  # API 스캔 대상 패키지
+
+# cool sms 잔액 조회를 위한 커스텀
+cool-sms:
+  cost-per-sms: 20  # SMS 1건당 예상 비용 (기본값 20원)
+  minimum-balance: 1000  # 최소 필요 잔액 (기본값 1000원)
