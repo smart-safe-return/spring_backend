@@ -22,6 +22,10 @@ RUN ./gradlew bootJar --no-daemon
 # 실행 스테이지: Java 21 런타임만 사용
 FROM openjdk:21-slim
 
+# 시간대 설정을 서울로 변경
+ENV TZ=Asia/Seoul
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
 # 작업 디렉토리 설정
 WORKDIR /app
 
