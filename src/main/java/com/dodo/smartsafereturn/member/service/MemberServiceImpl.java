@@ -6,8 +6,10 @@ import com.dodo.smartsafereturn.member.dto.MemberResponseDto;
 import com.dodo.smartsafereturn.member.dto.MemberUpdateDto;
 import com.dodo.smartsafereturn.member.entity.Member;
 import com.dodo.smartsafereturn.member.repository.MemberRepository;
+import com.dodo.smartsafereturn.verification.dto.SMSPasswordRequestDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +27,7 @@ public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
     private final BCryptPasswordEncoder passwordEncoder;
     private final CloudStorageService storageService;
+    private final ResourcePatternResolver resourcePatternResolver;
 
     @Transactional
     @Override
@@ -137,5 +140,15 @@ public class MemberServiceImpl implements MemberService {
                         .profile(m.getProfile())
                         .build())
                 .toList();
+    }
+
+    @Override
+    public boolean isMember(SMSPasswordRequestDto dto) {
+        return memberRepository.isMemberValid(dto.getMemberId(), dto.getPhone());
+    }
+
+    @Override
+    public boolean isExistMemberByPhone(String phone) {
+        return memberRepository.existsByPhoneAndIsDeletedIsFalse(phone);
     }
 }

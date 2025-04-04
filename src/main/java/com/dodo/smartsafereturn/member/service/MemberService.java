@@ -3,6 +3,8 @@ package com.dodo.smartsafereturn.member.service;
 import com.dodo.smartsafereturn.member.dto.MemberJoinDto;
 import com.dodo.smartsafereturn.member.dto.MemberResponseDto;
 import com.dodo.smartsafereturn.member.dto.MemberUpdateDto;
+import com.dodo.smartsafereturn.verification.dto.SMSPasswordRequestDto;
+import jakarta.validation.constraints.NotBlank;
 
 import java.util.List;
 
@@ -23,4 +25,8 @@ public interface MemberService {
     // 회원 리스트 조회
     List<MemberResponseDto> getMembers();
 
+    // 회원아이디 + 휴대폰 -> 검증 (VerificationService 용)
+    boolean isMember(SMSPasswordRequestDto dto);
+
+    boolean isExistMemberByPhone(String phone);
 }

@@ -4,6 +4,7 @@ import com.dodo.smartsafereturn.member.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.security.core.parameters.P;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,4 +22,11 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     boolean existsByIdAndIsDeletedIsFalse(String id);
 
     List<Member> findAllByIsDeletedIsFalse();
+
+    // 회원 아이디 + 휴대폰 -> 패스워드 검증 전 유효한 회원인지 확인
+    @Query("select count(m) > 0 from Member m where m.id = :id and m.phone = :phone")
+    boolean isMemberValid(@Param("id") String id, @Param("phone") String phone);
+
+    // 회원 휴대폰 번호로 회원 존재하는지 확인
+    boolean existsByPhoneAndIsDeletedIsFalse(String phone);
 }
