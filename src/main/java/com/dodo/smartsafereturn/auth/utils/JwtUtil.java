@@ -1,5 +1,6 @@
 package com.dodo.smartsafereturn.auth.utils;
 
+import com.dodo.smartsafereturn.auth.dto.JwtType;
 import io.jsonwebtoken.Jwts;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -100,6 +101,22 @@ public class JwtUtil {
                 .claim("role", role)
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + expiration))
+                .signWith(secretKey)
+                .compact();
+    }
+
+    /**
+     * 비밀번호 찾기 인증용 보안 토큰
+     * reset token 생성기
+     */
+    public String generateResetToken() {
+        return Jwts.builder()
+                .header()
+                .add("typ", "JWT")
+                .and()
+                .claim("type", JwtType.RESET) // access / refresh
+                .issuedAt(new Date(System.currentTimeMillis()))
+                .expiration(new Date(System.currentTimeMillis() + (60 * 60 * 1000L))) // 1시간 여유주기
                 .signWith(secretKey)
                 .compact();
     }

@@ -1,12 +1,14 @@
 package com.dodo.smartsafereturn.verification.service;
 
-import com.dodo.smartsafereturn.verification.dto.ValidateIdRequestDto;
+import com.dodo.smartsafereturn.auth.dto.JwtType;
+import com.dodo.smartsafereturn.auth.entity.TokenType;
+import com.dodo.smartsafereturn.auth.utils.JwtUtil;
+import com.dodo.smartsafereturn.member.dto.MemberResponseDto;
+import com.dodo.smartsafereturn.member.dto.MemberUpdateDto;
+import com.dodo.smartsafereturn.member.entity.Member;
+import com.dodo.smartsafereturn.verification.dto.*;
 import com.dodo.smartsafereturn.member.service.MemberService;
 import com.dodo.smartsafereturn.sms.service.SmsService;
-import com.dodo.smartsafereturn.verification.dto.SMSMemberIdRequestDto;
-import com.dodo.smartsafereturn.verification.dto.SMSPasswordRequestDto;
-import com.dodo.smartsafereturn.verification.dto.SMSSignUpRequestDto;
-import com.dodo.smartsafereturn.verification.dto.ValidateRequestDto;
 import com.dodo.smartsafereturn.verification.entity.Verification;
 import com.dodo.smartsafereturn.verification.entity.VerificationPurpose;
 import com.dodo.smartsafereturn.verification.entity.VerificationType;
@@ -27,6 +29,7 @@ public class VerificationServiceImpl implements VerificationService {
     private final VerificationRepository repository;
     private final MemberService memberService;
     private final SmsService smsService;
+    private final JwtUtil jwtUtil;
     private static final SecureRandom random = new SecureRandom();
 
     @Override
@@ -43,7 +46,7 @@ public class VerificationServiceImpl implements VerificationService {
     }
 
     @Override
-    public Boolean validatePasswordBySMS(ValidateRequestDto dto) {
+    public String validatePasswordBySMS(ValidateRequestDto dto) {
 
         // 아직 인증되지 않은 인증 정보에서 인증 객체 가져오기
         Verification verification = repository.findByIdAndVerifiedIsFalse(dto.getVerificationId())
@@ -55,18 +58,20 @@ public class VerificationServiceImpl implements VerificationService {
         // 만료일 여부 확인
         if (verification.isExpired()) {
             log.info("[비밀번호 찾기 인증 - 검증 요청] 인증 시간이 지남");
-            return false;
+            throw new RuntimeException("[비밀번호 찾기 인증 - 검증 요청] 인증 시간이 지남");
         }
 
         // 인증 코드 매칭 여부 확인
         boolean verifyCode = verification.getCode().equals(dto.getCode());
 
-        // 인증 코드 값이 매칭되면 인증 여부 true 변경
-        if (verifyCode) {
-            verification.changeVerified();
+        if (!verifyCode) {
+            throw new RuntimeException("[비밀번호 찾기 인증 - 검증 요청] 인증 코드 값이 일치하지 않습니다.");
         }
 
-        return verifyCode;
+        // 인증 코드 값이 매칭되면 인증 여부 true 변경
+        verification.changeVerified();
+        // resetToken 값 생성해서 보안 토큰 반환
+        return jwtUtil.generateResetToken();
     }
 
     @Override
@@ -105,10 +110,11 @@ public class VerificationServiceImpl implements VerificationService {
         // 인증 코드 값이 매칭되면 인증 여부 true 변경
         if (verifyCode) {
             verification.changeVerified();
+            // 인증된 회원 아이디 반환
+            return memberService.findMemberIdByPhone(dto.getPhone());
         }
 
-        // 인증된 회원 아이디 반환
-        return memberService.findMemberIdByPhone(dto.getPhone());
+        throw new RuntimeException("[아이디 찾기 인증] 인증 코드 값이 일치하지 않습니다.");
     }
 
     @Override
@@ -143,6 +149,22 @@ public class VerificationServiceImpl implements VerificationService {
         }
 
         return verifyCode;
+    }
+
+    @Override
+    public Boolean resetPassword(PasswordResetDto dto) {
+
+        Member member = memberService.getMemberById(dto.getMemberId());
+
+        // 비밀 번호 업데이트
+        memberService.update(
+                MemberUpdateDto.builder()
+                        .memberNumber(member.getMemberNumber())
+                        .password(dto.getPassword())
+                        .build()
+        );
+
+        return true;
     }
 
     private Long sendSmsAndSaveVerification(String phone, VerificationPurpose purpose) {

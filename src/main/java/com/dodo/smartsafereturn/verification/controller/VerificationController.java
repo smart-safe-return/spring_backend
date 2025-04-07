@@ -1,10 +1,6 @@
 package com.dodo.smartsafereturn.verification.controller;
 
-import com.dodo.smartsafereturn.verification.dto.ValidateIdRequestDto;
-import com.dodo.smartsafereturn.verification.dto.SMSMemberIdRequestDto;
-import com.dodo.smartsafereturn.verification.dto.SMSPasswordRequestDto;
-import com.dodo.smartsafereturn.verification.dto.SMSSignUpRequestDto;
-import com.dodo.smartsafereturn.verification.dto.ValidateRequestDto;
+import com.dodo.smartsafereturn.verification.dto.*;
 import com.dodo.smartsafereturn.verification.service.VerificationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -116,12 +112,12 @@ public class VerificationController {
                             description = "인증 코드 검증 결과",
                             content = @Content(
                                     mediaType = "application/json",
-                                    schema = @Schema(implementation = Boolean.class),
+                                    schema = @Schema(implementation = String.class),
                                     examples = {
                                             @ExampleObject(
                                                     name = "인증 성공 응답 예시",
-                                                    summary = "인증 성공 여부(true/false)",
-                                                    value = "true"
+                                                    summary = "간단한 보안을 위한 reset-token 발급",
+                                                    value = "JWT 형식의 reset 토큰"
                                             )
                                     }
                             )
@@ -134,9 +130,9 @@ public class VerificationController {
             }
     )
     @PostMapping("/password/sms/validate")
-    public ResponseEntity<Boolean> sendPasswordVerificationValidate(@Validated @RequestBody ValidateRequestDto dto) {
-        Boolean isVerified = verificationService.validatePasswordBySMS(dto);
-        // 인증 검증 완료 시 true 반환
+    public ResponseEntity<String> sendPasswordVerificationValidate(@Validated @RequestBody ValidateRequestDto dto) {
+        String isVerified = verificationService.validatePasswordBySMS(dto);
+        // 인증 검증 완료 시 resetToken 반환
         return ResponseEntity.ok(isVerified);
     }
 
@@ -254,7 +250,7 @@ public class VerificationController {
     @PostMapping("/id/sms/validate")
     public ResponseEntity<String> sendMemberIdVerificationValidate(@Validated @RequestBody ValidateIdRequestDto dto) {
         String isVerified = verificationService.validateMemberIdBySMS(dto);
-        // 인증 검증 완료 시 true 반환
+        // 인증 검증 완료 시 회원 아이디 반환
         return ResponseEntity.ok(isVerified);
     }
 
@@ -365,8 +361,61 @@ public class VerificationController {
         return ResponseEntity.ok(isVerified);
     }
 
-//    @PutMapping("/password/reset")
-//    public ResponseEntity<Boolean> resetPassword(@Validated @RequestBody ) {
-//
-//    }
+    @Operation(
+            summary = "비밀번호 재설정",
+            description = "SMS 인증 성공 후, 사용자의 비밀번호를 재설정합니다.",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "사용자 아이디와 새 비밀번호 정보",
+                    required = true,
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = PasswordResetDto.class),
+                            examples = {
+                                    @ExampleObject(
+                                            name = "비밀번호 재설정 요청 예시",
+                                            summary = "사용자 아이디와 새 비밀번호",
+                                            value = """
+                                                {
+                                                  "member_id": "user123",
+                                                  "password": "NewPassword123!",
+                                                  "token": "JWT 토큰 형식"
+                                                }
+                                                """
+                                    )
+                            }
+                    )
+            ),
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "비밀번호 재설정 성공",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = Boolean.class),
+                                    examples = {
+                                            @ExampleObject(
+                                                    name = "재설정 성공 응답 예시",
+                                                    summary = "재설정 성공 여부(true/false)",
+                                                    value = "true"
+                                            )
+                                    }
+                            )
+                    ),
+                    @ApiResponse(
+                            responseCode = "400",
+                            description = "잘못된 요청",
+                            content = @Content(schema = @Schema(implementation = RuntimeException.class))
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "사용자를 찾을 수 없음",
+                            content = @Content(schema = @Schema(implementation = RuntimeException.class))
+                    )
+            }
+    )
+    @PutMapping("/password/reset")
+    public ResponseEntity<Boolean> resetPassword(@Validated @RequestBody PasswordResetDto dto) {
+        Boolean reset = verificationService.resetPassword(dto);
+        return ResponseEntity.ok(reset);
+    }
 }

@@ -74,9 +74,11 @@ public class MemberServiceImpl implements MemberService {
                 .orElseThrow(() -> new RuntimeException("[MemberService] update() : 존재하지 않는 회원"));
 
         // 휴대폰 번호 중복 검사
-        boolean duplicatePhone = memberRepository.existsByPhoneAndIsDeletedIsFalse(memberUpdateDto.getPhone());
-        if (duplicatePhone) {
-            throw new RuntimeException("[회원 정보 수정] : 이미 다른 회원이 쓰고 있는 전화번호 입니다");
+        if (memberUpdateDto.getPhone() != null && !memberUpdateDto.getPhone().isEmpty()) {
+            boolean duplicatePhone = memberRepository.existsByPhoneAndIsDeletedIsFalse(memberUpdateDto.getPhone());
+            if (duplicatePhone) {
+                throw new RuntimeException("[회원 정보 수정] : 이미 다른 회원이 쓰고 있는 전화번호 입니다");
+            }
         }
 
         // 비밀번호 암호화
@@ -168,7 +170,13 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public String findMemberIdByPhone(String phone) {
         Member member = memberRepository.findByPhoneAndIsDeletedIsFalse(phone)
-                .orElseThrow(() -> new RuntimeException("[MemberService] getMember() : 존재하지 않는 회원"));
+                .orElseThrow(() -> new RuntimeException("[MemberService] findMemberIdByPhone() : 존재하지 않는 회원"));
         return member.getId();
+    }
+
+    @Override
+    public Member getMemberById(String id) {
+        return memberRepository.findMemberByIdNotDeleted(id)
+                .orElseThrow(() -> new RuntimeException("[MemberService] getMemberById() : 존재하지 않는 회원"));
     }
 }

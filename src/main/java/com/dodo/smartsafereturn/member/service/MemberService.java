@@ -3,6 +3,7 @@ package com.dodo.smartsafereturn.member.service;
 import com.dodo.smartsafereturn.member.dto.MemberJoinDto;
 import com.dodo.smartsafereturn.member.dto.MemberResponseDto;
 import com.dodo.smartsafereturn.member.dto.MemberUpdateDto;
+import com.dodo.smartsafereturn.member.entity.Member;
 import com.dodo.smartsafereturn.verification.dto.SMSPasswordRequestDto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -32,4 +33,6 @@ public interface MemberService {
     boolean isExistMemberByPhone(String phone);
 
     String findMemberIdByPhone(String phone);
+
+    Member getMemberById(String id);
 }
