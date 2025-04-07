@@ -1,7 +1,9 @@
 package com.dodo.smartsafereturn.verification.service;
 
 import com.dodo.smartsafereturn.auth.dto.JwtType;
+import com.dodo.smartsafereturn.auth.entity.Token;
 import com.dodo.smartsafereturn.auth.entity.TokenType;
+import com.dodo.smartsafereturn.auth.repository.TokenRepository;
 import com.dodo.smartsafereturn.auth.utils.JwtUtil;
 import com.dodo.smartsafereturn.member.dto.MemberResponseDto;
 import com.dodo.smartsafereturn.member.dto.MemberUpdateDto;
@@ -21,6 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.security.SecureRandom;
+import java.util.Date;
 
 @Slf4j
 @Service
@@ -32,6 +35,7 @@ public class VerificationServiceImpl implements VerificationService {
     private final MemberService memberService;
     private final SmsService smsService;
     private final JwtUtil jwtUtil;
+    private final TokenRepository tokenRepository;
     private static final SecureRandom random = new SecureRandom();
 
     @Override

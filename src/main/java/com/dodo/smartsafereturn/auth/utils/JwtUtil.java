@@ -114,7 +114,7 @@ public class JwtUtil {
                 .header()
                 .add("typ", "JWT")
                 .and()
-                .claim("type", JwtType.RESET) // reset
+                .claim("type", JwtType.RESET.getValue()) // reset
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + (60 * 60 * 1000L))) // 1시간 여유주기
                 .signWith(secretKey)
