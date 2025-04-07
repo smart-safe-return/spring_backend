@@ -27,7 +27,6 @@ public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
     private final BCryptPasswordEncoder passwordEncoder;
     private final CloudStorageService storageService;
-    private final ResourcePatternResolver resourcePatternResolver;
 
     @Transactional
     @Override
@@ -39,6 +38,13 @@ public class MemberServiceImpl implements MemberService {
             log.info("[MemberService] Join() 예외 발생 : [회원 가입 로직] 이미 존재하는 회원입니다");
             throw  new RuntimeException("[회원 가입 로직] 이미 존재하는 회원입니다");
         }
+
+        // 휴대폰 번호 중복 검사
+        boolean duplicatePhone = memberRepository.existsByPhoneAndIsDeletedIsFalse(memberJoinDto.getPhone());
+        if (duplicatePhone) {
+            throw new RuntimeException("[회원 가입 로직] : 이미 다른 회원이 쓰고 있는 전화번호 입니다");
+        }
+
 
         // 프로필 이미지 저장
         String profileUrl = null;
@@ -63,8 +69,15 @@ public class MemberServiceImpl implements MemberService {
     @Transactional
     @Override
     public void update(MemberUpdateDto memberUpdateDto) {
+        // 회원 존재 여부 검증
         Member member = memberRepository.findByMemberNumberAndIsDeletedIsFalse(memberUpdateDto.getMemberNumber())
                 .orElseThrow(() -> new RuntimeException("[MemberService] update() : 존재하지 않는 회원"));
+
+        // 휴대폰 번호 중복 검사
+        boolean duplicatePhone = memberRepository.existsByPhoneAndIsDeletedIsFalse(memberUpdateDto.getPhone());
+        if (duplicatePhone) {
+            throw new RuntimeException("[회원 정보 수정] : 이미 다른 회원이 쓰고 있는 전화번호 입니다");
+        }
 
         // 비밀번호 암호화
         if (memberUpdateDto.getPassword() != null && !memberUpdateDto.getPassword().isEmpty()) {
@@ -150,5 +163,12 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public boolean isExistMemberByPhone(String phone) {
         return memberRepository.existsByPhoneAndIsDeletedIsFalse(phone);
+    }
+
+    @Override
+    public String findMemberIdByPhone(String phone) {
+        Member member = memberRepository.findByPhoneAndIsDeletedIsFalse(phone)
+                .orElseThrow(() -> new RuntimeException("[MemberService] getMember() : 존재하지 않는 회원"));
+        return member.getId();
     }
 }

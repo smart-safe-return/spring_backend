@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ValidateRequestDto {
+public class ValidateIdRequestDto {
     /**
      *  인증 코드 검증 요청 dto
      */
@@ -22,6 +22,7 @@ public class ValidateRequestDto {
             regexp = "^010\\d{8}$",
             message = "전화번호는 010으로 시작하는 11자리 숫자여야 합니다."
     )
+    @NotBlank
     private String phone;
     @NotNull(message = "verification_id 아이디 값은 필수값")
     private Long verificationId;

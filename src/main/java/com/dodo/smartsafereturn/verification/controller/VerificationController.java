@@ -1,5 +1,6 @@
 package com.dodo.smartsafereturn.verification.controller;
 
+import com.dodo.smartsafereturn.verification.dto.ValidateIdRequestDto;
 import com.dodo.smartsafereturn.verification.dto.SMSMemberIdRequestDto;
 import com.dodo.smartsafereturn.verification.dto.SMSPasswordRequestDto;
 import com.dodo.smartsafereturn.verification.dto.SMSSignUpRequestDto;
@@ -15,10 +16,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
@@ -209,13 +207,14 @@ public class VerificationController {
                     required = true,
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ValidateRequestDto.class),
+                            schema = @Schema(implementation = ValidateIdRequestDto.class),
                             examples = {
                                     @ExampleObject(
                                             name = "인증 코드 검증 요청 예시",
                                             summary = "인증 ID와 인증 코드 정보",
                                             value = """
                                                     {
+                                                      "phone": "01012345678",
                                                       "verification_id": 12345,
                                                       "code": "123456"
                                                     }
@@ -230,12 +229,12 @@ public class VerificationController {
                             description = "인증 코드 검증 결과",
                             content = @Content(
                                     mediaType = "application/json",
-                                    schema = @Schema(implementation = Boolean.class),
+                                    schema = @Schema(implementation = String.class),
                                     examples = {
                                             @ExampleObject(
                                                     name = "인증 성공 응답 예시",
-                                                    summary = "인증 성공 여부(true/false)",
-                                                    value = "true"
+                                                    summary = "인증 성공 시, 회원 아이디 (String) 반환",
+                                                    value = "test1234"
                                             )
                                     }
                             )
@@ -253,8 +252,8 @@ public class VerificationController {
             }
     )
     @PostMapping("/id/sms/validate")
-    public ResponseEntity<Boolean> sendMemberIdVerificationValidate(@Validated @RequestBody ValidateRequestDto dto) {
-        Boolean isVerified = verificationService.validateMemberIdBySMS(dto);
+    public ResponseEntity<String> sendMemberIdVerificationValidate(@Validated @RequestBody ValidateIdRequestDto dto) {
+        String isVerified = verificationService.validateMemberIdBySMS(dto);
         // 인증 검증 완료 시 true 반환
         return ResponseEntity.ok(isVerified);
     }
@@ -365,4 +364,9 @@ public class VerificationController {
         // 인증 검증 완료 시 true 반환
         return ResponseEntity.ok(isVerified);
     }
+
+//    @PutMapping("/password/reset")
+//    public ResponseEntity<Boolean> resetPassword(@Validated @RequestBody ) {
+//
+//    }
 }

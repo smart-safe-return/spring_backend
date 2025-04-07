@@ -1,6 +1,6 @@
 package com.dodo.smartsafereturn.global.config;
 
-import com.dodo.smartsafereturn.auth.repository.RefreshTokenRepository;
+import com.dodo.smartsafereturn.auth.repository.TokenRepository;
 import com.dodo.smartsafereturn.auth.service.AdminUserDetailsService;
 import com.dodo.smartsafereturn.auth.service.AuthService;
 import com.dodo.smartsafereturn.auth.service.CustomUserDetailsService;
@@ -40,7 +40,7 @@ public class SecurityConfig {
 
     private final AuthenticationConfiguration authenticationConfiguration;
     private final JwtUtil jwtUtil;
-    private final RefreshTokenRepository refreshTokenRepository;
+    private final TokenRepository tokenRepository;
     private final AuthService authService;
 
     private final CustomUserDetailsService memberUserDetailsService;
@@ -94,7 +94,7 @@ public class SecurityConfig {
                                 jwtUtil,
                                 accessExpiration,
                                 refreshExpiration,
-                                refreshTokenRepository
+                                tokenRepository
                         ),
                         UsernamePasswordAuthenticationFilter.class
                 )
@@ -104,7 +104,7 @@ public class SecurityConfig {
                                 jwtUtil,
                                 accessExpiration,
                                 refreshExpiration,
-                                refreshTokenRepository
+                                tokenRepository
                         ),
                         LoginFilter.class // LoginFilter 이전에 실행되도록 설정
                 )

@@ -1,6 +1,5 @@
 package com.dodo.smartsafereturn.auth.utils;
 
-import com.dodo.smartsafereturn.auth.repository.RefreshTokenRepository;
 import com.dodo.smartsafereturn.auth.service.AuthService;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;

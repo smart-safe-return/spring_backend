@@ -29,4 +29,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     // 회원 휴대폰 번호로 회원 존재하는지 확인
     boolean existsByPhoneAndIsDeletedIsFalse(String phone);
+
+    // 회원 휴대폰 번호로 회원 정보 쿼리
+    Optional<Member> findByPhoneAndIsDeletedIsFalse(String phone);
 }

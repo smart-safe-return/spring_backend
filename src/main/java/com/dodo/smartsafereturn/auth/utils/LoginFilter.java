@@ -3,8 +3,9 @@ package com.dodo.smartsafereturn.auth.utils;
 import com.dodo.smartsafereturn.auth.dto.JwtType;
 import com.dodo.smartsafereturn.auth.entity.CustomUserDetails;
 import com.dodo.smartsafereturn.auth.dto.LoginDto;
-import com.dodo.smartsafereturn.auth.entity.RefreshToken;
-import com.dodo.smartsafereturn.auth.repository.RefreshTokenRepository;
+import com.dodo.smartsafereturn.auth.entity.Token;
+import com.dodo.smartsafereturn.auth.entity.TokenType;
+import com.dodo.smartsafereturn.auth.repository.TokenRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -41,18 +42,18 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
     private final JwtUtil jwtUtil;
     private final Long accessExpiration;
     private final Long refreshExpiration;
-    private final RefreshTokenRepository refreshTokenRepository;
+    private final TokenRepository tokenRepository;
 
     public LoginFilter(AuthenticationManager authenticationManager,
                        JwtUtil jwtUtil,
                        Long accessExpiration,
                        Long refreshExpiration,
-                       RefreshTokenRepository refreshTokenRepository) {
+                       TokenRepository tokenRepository) {
         this.authenticationManager = authenticationManager;
         this.jwtUtil = jwtUtil;
         this.accessExpiration = accessExpiration;
         this.refreshExpiration = refreshExpiration;
-        this.refreshTokenRepository = refreshTokenRepository;
+        this.tokenRepository = tokenRepository;
         setFilterProcessesUrl("/api/auth/login");
     }
 
@@ -104,11 +105,12 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         String refreshToken = jwtUtil.generateToken(JwtType.REFRESH.getValue(), memberNumber, id, role, refreshExpiration);
 
         // 리프레시 토큰 저장소에 생성한 토큰 저장
-        refreshTokenRepository.save(
-                RefreshToken.builder()
+        tokenRepository.save(
+                Token.builder()
                         .memberId(id)
-                        .refresh(refreshToken)
+                        .token(refreshToken)
                         .expiration(new Date(System.currentTimeMillis() + refreshExpiration).toString())
+                        .type(TokenType.REFRESH_TOKEN)
                         .build()
         );
 

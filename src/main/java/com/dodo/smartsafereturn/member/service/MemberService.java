@@ -5,6 +5,7 @@ import com.dodo.smartsafereturn.member.dto.MemberResponseDto;
 import com.dodo.smartsafereturn.member.dto.MemberUpdateDto;
 import com.dodo.smartsafereturn.verification.dto.SMSPasswordRequestDto;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 
 import java.util.List;
 
@@ -29,4 +30,6 @@ public interface MemberService {
     boolean isMember(SMSPasswordRequestDto dto);
 
     boolean isExistMemberByPhone(String phone);
+
+    String findMemberIdByPhone(String phone);
 }

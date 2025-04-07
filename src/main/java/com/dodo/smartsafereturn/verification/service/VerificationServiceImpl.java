@@ -1,5 +1,6 @@
 package com.dodo.smartsafereturn.verification.service;
 
+import com.dodo.smartsafereturn.verification.dto.ValidateIdRequestDto;
 import com.dodo.smartsafereturn.member.service.MemberService;
 import com.dodo.smartsafereturn.sms.service.SmsService;
 import com.dodo.smartsafereturn.verification.dto.SMSMemberIdRequestDto;
@@ -83,7 +84,7 @@ public class VerificationServiceImpl implements VerificationService {
     }
 
     @Override
-    public Boolean validateMemberIdBySMS(ValidateRequestDto dto) {
+    public String validateMemberIdBySMS(ValidateIdRequestDto dto) {
 
         // 아직 인증되지 않은 인증 정보에서 인증 객체 가져오기
         Verification verification = repository.findByIdAndVerifiedIsFalse(dto.getVerificationId())
@@ -95,7 +96,7 @@ public class VerificationServiceImpl implements VerificationService {
         // 만료일 여부 확인
         if (verification.isExpired()) {
             log.info("[아이디 찾기 인증 - 검증 요청] 인증 시간이 지남");
-            return false;
+            throw new RuntimeException("[아이디 찾기 인증 - 검증 요청] 인증 시간이 지남");
         }
 
         // 인증 코드 매칭 여부 확인
@@ -106,7 +107,8 @@ public class VerificationServiceImpl implements VerificationService {
             verification.changeVerified();
         }
 
-        return verifyCode;
+        // 인증된 회원 아이디 반환
+        return memberService.findMemberIdByPhone(dto.getPhone());
     }
 
     @Override

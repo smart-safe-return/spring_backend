@@ -1,5 +1,6 @@
 package com.dodo.smartsafereturn.verification.service;
 
+import com.dodo.smartsafereturn.verification.dto.ValidateIdRequestDto;
 import com.dodo.smartsafereturn.verification.dto.SMSMemberIdRequestDto;
 import com.dodo.smartsafereturn.verification.dto.SMSPasswordRequestDto;
 import com.dodo.smartsafereturn.verification.dto.SMSSignUpRequestDto;
@@ -14,7 +15,7 @@ public interface VerificationService {
     // SMS 아이디 인증 검증
     Long verifyMemberIdBySMS(SMSMemberIdRequestDto dto);
     // SMS 아이디 인증 요청
-    Boolean validateMemberIdBySMS(ValidateRequestDto dto);
+    String validateMemberIdBySMS(ValidateIdRequestDto dto);
     // SMS 회원 가입 시, 인증 요청
     Long verifySignUpBySMS(SMSSignUpRequestDto dto);
     // SMS 회원 가입 시, 인증 검증

@@ -2,8 +2,9 @@ package com.dodo.smartsafereturn.auth.service;
 
 import com.dodo.smartsafereturn.auth.dto.JwtType;
 import com.dodo.smartsafereturn.auth.dto.RefreshValidationResultDto;
-import com.dodo.smartsafereturn.auth.entity.RefreshToken;
-import com.dodo.smartsafereturn.auth.repository.RefreshTokenRepository;
+import com.dodo.smartsafereturn.auth.entity.Token;
+import com.dodo.smartsafereturn.auth.entity.TokenType;
+import com.dodo.smartsafereturn.auth.repository.TokenRepository;
 import com.dodo.smartsafereturn.auth.utils.JwtUtil;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.http.HttpServletResponse;
@@ -29,7 +30,7 @@ import java.util.Date;
 public class AuthServiceImpl implements AuthService {
 
     private final JwtUtil jwtUtil;
-    private final RefreshTokenRepository refreshTokenRepository;
+    private final TokenRepository tokenRepository;
 
     @Value("${jwt.access-expiration}")
     private Long accessExpiration;
@@ -71,7 +72,7 @@ public class AuthServiceImpl implements AuthService {
         }
 
         // 리프레시 토큰 저장소에 등록된 토큰인지 검증 -> 서버측 검증
-        Boolean isExist = refreshTokenRepository.existsByRefresh(refreshToken);
+        Boolean isExist = tokenRepository.existsByToken(refreshToken);
         if (!isExist) {
             log.info("[AuthService] invalid refresh token : 리프레시 토큰 저장소 검증 실패");
             result.setBody("invalid refresh token");
@@ -94,12 +95,13 @@ public class AuthServiceImpl implements AuthService {
         /**
          * 주의점 - 재발급을 해도 이전의 토큰을 가지고 서버에 가져가도 인증이 됨 -> 리프레시 토큰 저장소 검증
          */
-        refreshTokenRepository.deleteByRefresh(refreshToken);
-        refreshTokenRepository.save(
-                RefreshToken.builder()
+        tokenRepository.deleteByToken(refreshToken);
+        tokenRepository.save(
+                Token.builder()
                         .memberId(id)
-                        .refresh(reissuedRefreshToken)
+                        .token(reissuedRefreshToken)
                         .expiration(new Date(System.currentTimeMillis() + refreshExpiration).toString())
+                        .type(TokenType.REFRESH_TOKEN)
                         .build()
         );
 
@@ -111,7 +113,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public void logout(String refreshToken, HttpServletResponse response) {
         // DB에 해당 토큰이 있는지 확인
-        if (!refreshTokenRepository.existsByRefresh(refreshToken)) {
+        if (!tokenRepository.existsByToken(refreshToken)) {
             // DB에 없다면 이미 로그아웃된 상태여야하므로 400 던짐
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             return;
@@ -122,6 +124,6 @@ public class AuthServiceImpl implements AuthService {
          * 헤더로 받은 refresh token 을 기반으로 토큰 저장소에서 삭제
          * - 프론트의 경우 -> access , refresh 모두 저장소에서 삭제하고, refresh 만 헤더로 추가해서 logout 경로로 요청하면 끝.
          */
-        refreshTokenRepository.deleteByRefresh(refreshToken);
+        tokenRepository.deleteByToken(refreshToken);
     }
 }
