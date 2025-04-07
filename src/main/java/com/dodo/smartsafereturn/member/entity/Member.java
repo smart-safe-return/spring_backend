@@ -53,13 +53,13 @@ public class Member extends BaseTimeEntity {
 
     // 회원 수정 : 비밀번호 or 휴대폰 번호
     public void updateMember(MemberUpdateDto dto) {
-        if (dto.getPassword() != null && !dto.getPassword().isEmpty() && !dto.getPassword().isBlank()) {
+        if (dto.getPassword() != null && !dto.getPassword().isBlank()) {
             this.password = dto.getPassword();
         }
-        if (dto.getPhone() != null && !dto.getPhone().isEmpty() && !dto.getPhone().isBlank()) {
+        if (dto.getPhone() != null && !dto.getPhone().isBlank()) {
             this.phone = dto.getPhone();
         }
-        if (dto.getProfile() != null && !dto.getProfile().isEmpty() && !dto.getProfile().isBlank()) {
+        if (dto.getProfile() != null && !dto.getProfile().isBlank()) {
             this.profile = dto.getProfile();
         }
     }

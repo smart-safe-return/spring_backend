@@ -13,6 +13,8 @@ import com.dodo.smartsafereturn.verification.entity.Verification;
 import com.dodo.smartsafereturn.verification.entity.VerificationPurpose;
 import com.dodo.smartsafereturn.verification.entity.VerificationType;
 import com.dodo.smartsafereturn.verification.repository.VerificationRepository;
+import io.jsonwebtoken.ExpiredJwtException;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -153,7 +155,21 @@ public class VerificationServiceImpl implements VerificationService {
 
     @Override
     public Boolean resetPassword(PasswordResetDto dto) {
+        
+        // resetToken 유효성 검사
+        // 비밀 번호 리셋용 검증 토큰 여부 검사
+        String type = jwtUtil.getType(dto.getToken());
+        if (!type.equals(JwtType.RESET.getValue())) {
+            throw new RuntimeException("[비밀번호 변경 요청] 비밀번호 변경 자격이 없습니다. 다시 비밀번호 찾기를 시도해주세요");
+        }
+        // 토큰 소멸시간 검사
+        try {
+            jwtUtil.isExpired(dto.getToken());
+        } catch (ExpiredJwtException e) {
+            throw new RuntimeException("[비밀번호 변경 요청] 비밀번호 변경 검증 토큰이 만료되었습니다. 다시 비밀번호 찾기를 시도해주세요");
+        }
 
+        // 변경할 회원 쿼리
         Member member = memberService.getMemberById(dto.getMemberId());
 
         // 비밀 번호 업데이트
