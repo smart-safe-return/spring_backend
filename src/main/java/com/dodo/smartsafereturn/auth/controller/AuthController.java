@@ -1,5 +1,6 @@
 package com.dodo.smartsafereturn.auth.controller;
 
+import com.dodo.smartsafereturn.auth.dto.LoginDto;
 import com.dodo.smartsafereturn.auth.dto.RefreshValidationResultDto;
 import com.dodo.smartsafereturn.auth.service.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -17,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -127,5 +129,92 @@ public class AuthController {
 
         return new ResponseEntity<>(result.getBody(), result.getStatus());
 
+    }
+
+
+    /**
+     * 아래는 swagger 명세를 위해 만든 더미 데이터 이므로 실제로 코드와 연관없음
+     *
+     */
+    @Operation(
+            summary = "로그인 API (문서용이므로 실제 URL 은 \"-doc\"을 제외하고 요청)",
+            description = "사용자 ID와 비밀번호로 로그인하고 인증 토큰을 반환합니다. 실제 엔드포인트는 `/api/auth/login` 이며 필터에서 처리됩니다.",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "로그인 정보",
+                    required = true,
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = LoginDto.class),
+                            examples = {
+                                    @ExampleObject(
+                                            name = "로그인 요청 예시",
+                                            summary = "사용자 ID와 비밀번호",
+                                            value = """
+                                                    {
+                                                      "id": "user123",
+                                                      "password": "userPassword123!"
+                                                    }
+                                                    """
+                                    )
+                            }
+                    )
+            ),
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "로그인 성공 - Authorization 헤더와 refresh 헤더에 토큰이 반환됩니다.",
+                            headers = {
+                                    @io.swagger.v3.oas.annotations.headers.Header(
+                                            name = "Authorization",
+                                            description = "새로 발급된 Access 토큰",
+                                            schema = @Schema(type = "string", example = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...")
+                                    ),
+                                    @io.swagger.v3.oas.annotations.headers.Header(
+                                            name = "refresh",
+                                            description = "새로 발급된 Refresh 토큰",
+                                            schema = @Schema(type = "string", example = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...")
+                                    )
+                            }
+                    ),
+                    @ApiResponse(
+                            responseCode = "401",
+                            description = "인증 실패 - 아이디 또는 비밀번호가 올바르지 않습니다.",
+                            content = @Content
+                    )
+            }
+    )
+    @PostMapping("/login-doc")
+    public ResponseEntity<Void> loginDoc(@RequestBody LoginDto loginDto) {
+        // 실제 구현은 없고 문서화 용도로만 사용
+        return ResponseEntity.ok().build();
+    }
+
+    @Operation(
+            summary = "로그아웃 API (문서용이므로 실제 URL 은 \"-doc\"을 제외하고 요청)",
+            description = "사용자의 Refresh 토큰을 무효화하여 로그아웃 처리합니다. 실제 엔드포인트는 `/api/auth/logout` 이며 필터에서 처리됩니다.",
+            parameters = {
+                    @Parameter(
+                            name = "refresh",
+                            description = "Refresh 토큰 (Bearer 포함)",
+                            required = true,
+                            in = ParameterIn.HEADER,
+                            example = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIn0.dozjgNryP4J3jVmNHl0w5N_XgL0n3I9PlFUP0THsR8U"
+                    )
+            },
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "로그아웃 성공"
+                    ),
+                    @ApiResponse(
+                            responseCode = "400",
+                            description = "로그아웃 실패"
+                    )
+            }
+    )
+    @PostMapping("/logout-doc")
+    public ResponseEntity<Void> logoutDoc() {
+        // 실제 구현은 없고 문서화 용도로만 사용
+        return ResponseEntity.ok().build();
     }
 }
