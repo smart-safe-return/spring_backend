@@ -25,5 +25,6 @@ public class MemberUpdateDto {
     )
     private String phone;
     private MultipartFile file;
+    // todo file 검증
     private String profile; // 실제 파일을 스토리지 저장 후, 주소 DB 저장용
 }

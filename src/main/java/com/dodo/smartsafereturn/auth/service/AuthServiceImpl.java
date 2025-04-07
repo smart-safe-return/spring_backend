@@ -45,7 +45,7 @@ public class AuthServiceImpl implements AuthService {
 
         // 리프레시 토큰 전달 여부 검증
         if (refreshToken == null) {
-            // 프론트로 응답 코드 반환 todo 프론트와 코드 및 메시지 협의
+            // 프론트로 응답 코드 반환
             result.setBody("refresh token is null");
             result.setStatus(HttpStatus.BAD_REQUEST);
             return result;

@@ -97,7 +97,6 @@ public class MessageLogController {
     @SecurityRequirement(name = "bearerAuth")
     @DeleteMapping("/{messageLogId}")
     public ResponseEntity<?> delete(@PathVariable Long messageLogId) {
-        // todo ADMIN 만 접근해서 삭제 관리하도록 조치 필요
         messageLogService.delete(messageLogId);
         return ResponseEntity.ok().build();
     }

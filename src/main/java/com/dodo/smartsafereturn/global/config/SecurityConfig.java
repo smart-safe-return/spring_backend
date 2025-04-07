@@ -79,6 +79,7 @@ public class SecurityConfig {
                                         .requestMatchers(HttpMethod.POST, "/api/auth/reissue").permitAll() // 리프레시 토큰 재발급 로직 경로
                                         .requestMatchers(HttpMethod.POST, "/api/member").permitAll() // 회원 가입
                                         .requestMatchers(HttpMethod.POST, "/api/verification/**").permitAll() // 인증 관련 요청 엔드포인트
+                                        .requestMatchers(HttpMethod.DELETE, "/api/message-log/**").hasRole("ADMIN") // SMS 메시지 로그 관리 (삭제)
                                         .requestMatchers("/api/question-category/**").hasRole("ADMIN") // 카테고리 관리는 관리자만
                                         .requestMatchers("/api/answer/**").hasRole("ADMIN") // 답변 글 관리는 관리자만
                                         .requestMatchers("/api/test/jwtTest1").hasAnyRole("ADMIN", "USER")

@@ -52,7 +52,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
             // response body
             response.getWriter().print("access_expired");
-            // status code 설정 todo 엑세스 토큰 만료 -> 프론트와 협의한 에러 코드를 보내서 리프레시토큰을 요구하도록 함 (일단 401)
+            // 엑세스 토큰 만료 -> 프론트와 협의한 에러 코드를 보내서 리프레시토큰을 요구하도록 함 (401)
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return;
             // 필터를 절대 넘기지않고 만료 응답 코드를 프론트로 그대로 넘겨줌
@@ -63,7 +63,7 @@ public class JwtFilter extends OncePerRequestFilter {
         if (!type.equals(JwtType.ACCESS.getValue())) {
             // response body
             response.getWriter().print("access_invalid");
-            // status code 설정 todo 엑세스 토큰이 잘못됨 -> 프론트와 협의한 에러 코드를 보내서 리프레시토큰을 요구하도록 함 (일단 401)
+            // 엑세스 토큰이 잘못됨 -> 프론트와 협의한 에러 코드를 보내서 리프레시토큰을 요구하도록 함 (401)
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return;
         }

@@ -48,7 +48,7 @@ public class CoolSmsServiceImpl implements SmsService {
             message.setText(content);
 
             SingleMessageSentResponse response = messageService.sendOne(new SingleMessageSendingRequest(message));
-            log.info("[CoolSmsServiceImpl] sendSms response: {}", response); // todo 나중에 로그 삭제
+            log.info("[CoolSmsServiceImpl] sendSms response: {}", response);
             
         } catch (Exception e) {
             
