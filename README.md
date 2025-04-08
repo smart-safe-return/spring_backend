@@ -91,7 +91,7 @@ src/
 
 1. 저장소 클론
 ```bash
-git clone [https://github.com/yourusername/dodo-backend.git](https://github.com/smart-safe-return/spring_backend.git)
+git clone https://github.com/smart-safe-return/spring_backend.git
 cd samrt-safe-return-backend
 ```
 
