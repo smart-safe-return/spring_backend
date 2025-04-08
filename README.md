@@ -79,44 +79,6 @@ src/
     └── java/com/dodo/smartsafereturn/ # 테스트 코드 
 ```
 
-
-## 🔧 설치 및 실행 방법
-
-### 사전 요구사항
-- JDK 21
-- PostgreSQL + PostGIS 확장
-- (선택사항) Google Cloud 계정
-
-### 로컬 개발 환경 설정
-
-1. 저장소 클론
-```bash
-git clone https://github.com/smart-safe-return/spring_backend.git
-cd smart-safe-return-backend
-```
-
-2. 환경 변수 설정
-```bash
-# .env 파일 생성 또는 IDE 실행 설정에 추가
-SPRING_DATABASE_USERNAME=your_db_username
-SPRING_DATABASE_PASSWORD=your_db_password
-SPRING_DATABASE_NAME=your_db_name
-SPRING_JWT_SECRET=your_jwt_secret
-COOL_SMS_API_KEY=your_coolsms_api_key
-COOL_SMS_SECRET_KEY=your_coolsms_secret_key
-COOL_SMS_FROM_NUMBER=your_coolsms_from_number
-```
-
-3. 애플리케이션 실행
-```bash
-./gradlew bootRun
-```
-
-4. API 문서 확인
-```
-https://smart-safe-return-backend-88013499747.asia-northeast2.run.app/swagger-ui/index.html
-```
-
 ## 🚀 배포
 
 이 프로젝트는 Google Cloud Run에 배포할 수 있도록 구성되어 있습니다.
