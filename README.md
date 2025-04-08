@@ -30,9 +30,9 @@
 ## 🌟 주요 기능
 
 - **사용자 관리**: 회원가입, 로그인, 프로필 관리
-- **JWT 기반 인증**: 액세스 토큰 및 리프레시 토큰 활용한 보안 시스템
+- **JWT 기반 인증**: 액세스 토큰 및 리프레시 토큰 활용한 보안 시스템 + RTR 기법 적용
 - **지리적 위치 기반 서비스**: PostGIS를 활용한 지리 데이터 처리 및 분석
-- **파일 업로드**: Google Cloud Storage를 활용한 이미지 및 파일 저장
+- **파일 업로드**: Google Cloud Storage를 활용한 이미지 및 파일 저장 (프로필 기능)
 - **SMS 인증**: CoolSMS를 통한 휴대폰 번호 인증 시스템
 - **RESTful API**: 프론트엔드와의 효율적인 통신을 위한 API 설계
 - **문서화된 API**: Swagger UI를 통한 API 문서 제공
@@ -92,7 +92,7 @@ src/
 1. 저장소 클론
 ```bash
 git clone https://github.com/smart-safe-return/spring_backend.git
-cd samrt-safe-return-backend
+cd smart-safe-return-backend
 ```
 
 2. 환경 변수 설정
