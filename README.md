@@ -42,23 +42,43 @@
 ```
 src/
 ├── main/
-│   ├── java/com/dodo/
-│   │   ├── config/         # 애플리케이션 설정
-│   │   ├── controller/     # API 엔드포인트
-│   │   ├── dto/            # 데이터 전송 객체
-│   │   ├── entity/         # JPA 엔티티
-│   │   ├── exception/      # 예외 처리
-│   │   ├── repository/     # 데이터 액세스 계층
-│   │   ├── service/        # 비즈니스 로직
-│   │   ├── security/       # 보안 및 인증
-│   │   ├── util/           # 유틸리티 클래스
-│   │   └── Application.java
+│   ├── java/com/dodo/smartsafereturn/
+│   │   ├── admin/          # 관리자 기능
+│   │   ├── answer/         # 답변 관련 기능
+│   │   ├── auth/           # 인증 관련 기능
+│   │   │   ├── controller/ # 인증 컨트롤러
+│   │   │   ├── dto/        # 인증 데이터 전송 객체
+│   │   │   ├── entity/     # 인증 관련 엔티티
+│   │   │   ├── repository/ # 인증 관련 리포지토리
+│   │   │   ├── service/    # 인증 관련 서비스
+│   │   │   └── utils/      # 인증 관련 유틸리티
+│   │   ├── emergencycontact/ # 비상 연락처 기능
+│   │   ├── global/          # 공통 컴포넌트
+│   │   │   ├── config/      # 애플리케이션 설정
+│   │   │   ├── entity/      # 공통 엔티티
+│   │   │   ├── handler/     # 공통 핸들러
+│   │   │   └── service/     # 공통 서비스
+│   │   ├── member/         # 회원 기능
+│   │   ├── messagelog/     # 메시지 로그 기능
+│   │   ├── question/       # 질문 관련 기능
+│   │   │   ├── controller/ # 질문 컨트롤러
+│   │   │   ├── dto/        # 질문 데이터 전송 객체
+│   │   │   ├── entity/     # 질문 관련 엔티티
+│   │   │   ├── repository/ # 질문 관련 리포지토리
+│   │   │   └── service/    # 질문 관련 서비스
+│   │   ├── questioncategory/ # 질문 카테고리 기능
+│   │   ├── saferoute/      # 안전 경로 기능
+│   │   ├── sms/            # SMS 관련 기능
+│   │   ├── sosmessage/     # SOS 메시지 기능
+│   │   └── verification/   # 인증 검증 기능
 │   └── resources/
-│       ├── application.yml         # 기본 설정
-│       ├── application-dev.yml     # 개발 환경 설정
-│       └── application-prod.yml    # 운영 환경 설정
-└── test/                           # 테스트 코드
+│       ├── application.yml # 기본 설정
+│       ├── application-dev.yml # 개발 환경 설정
+│       └── application-prod.yml # 운영 환경 설정
+└── test/                   # 테스트 코드
+    └── java/com/dodo/smartsafereturn/ # 테스트 코드 
 ```
+
 
 ## 🔧 설치 및 실행 방법
 
