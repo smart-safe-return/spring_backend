@@ -154,6 +154,6 @@ Swagger UI를 통해 API 문서가 제공됩니다.
 
 ## 📞 연락처
 
-- 개발자: [이규찬](hoo788@gmail.com)
+- 개발자: 이규찬 - hoo788@gmail.com
 - 웹사이트: [포트폴리오 링크](https://github.com/smart-safe-return/spring_backend)
 - GitHub: [GitHub 프로필](https://github.com/gyuchanlee)
