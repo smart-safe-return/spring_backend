@@ -14,7 +14,7 @@
 - **유효성 검사**: Spring Validation
 
 ### 데이터베이스
-- **개발 환경**: H2 Database
+- **개발 환경**: PostgreSQL + PostGIS
 - **운영 환경**: PostgreSQL + PostGIS (공간 데이터 확장)
 
 ### 클라우드 서비스
