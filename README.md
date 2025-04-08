@@ -10,7 +10,7 @@
 - **보안**: Spring Security, JWT (jjwt 0.12.3)
 - **ORM**: Spring Data JPA, Hibernate, QueryDSL 5.0.0
 - **공간 데이터 처리**: Hibernate Spatial 6.5.0, PostGIS JDBC 2.5.0
-- **API 문서화**: SpringDoc OpenAPI (Swagger UI 3) 2.4.0
+- **API 문서화**: [SpringDoc OpenAPI (Swagger UI 3) 2.4.0](https://smart-safe-return-backend-88013499747.asia-northeast2.run.app/swagger-ui/index.html)
 - **유효성 검사**: Spring Validation
 
 ### 데이터베이스
@@ -97,13 +97,6 @@ gcloud run deploy smart-safe-return-backend \
 - 모든 비밀 정보는 환경 변수로 관리합니다.
 - Google Cloud 환경에서는 Secret Manager를 활용하여 민감한 정보를 관리합니다.
 - JWT 를 통한 인증 / 인가 기능 -> Refresh 토큰 및 RTR 기법 도입으로 신뢰성을 높였습니다.
-
-## 📚 API 문서
-
-Swagger UI를 통해 API 문서가 제공됩니다.
-
-- 개발 환경: `http://localhost:8080/swagger-ui.html`
-- 운영 환경: `https://smart-safe-return-backend-88013499747.asia-northeast2.run.app/swagger-ui/index.html`
 
 ## 📊 성능 최적화
 
