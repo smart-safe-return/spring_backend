@@ -1,12 +1,11 @@
 package com.dodo.smartsafereturn.member.service;
 
+import com.dodo.smartsafereturn.member.dto.MemberIdDuplicateCheckDto;
 import com.dodo.smartsafereturn.member.dto.MemberJoinDto;
 import com.dodo.smartsafereturn.member.dto.MemberResponseDto;
 import com.dodo.smartsafereturn.member.dto.MemberUpdateDto;
 import com.dodo.smartsafereturn.member.entity.Member;
 import com.dodo.smartsafereturn.verification.dto.SMSPasswordRequestDto;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
 
 import java.util.List;
 
@@ -35,4 +34,7 @@ public interface MemberService {
     String findMemberIdByPhone(String phone);
 
     Member getMemberById(String id);
+
+    // 회원 아이디 중복 체크
+    boolean checkDuplicate(MemberIdDuplicateCheckDto dto);
 }

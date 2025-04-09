@@ -126,6 +126,12 @@ public class VerificationServiceImpl implements VerificationService {
     @Override
     public Long verifySignUpBySMS(SMSSignUpRequestDto dto) {
 
+        // 인증 요청 번호가 이미 가입된 번호 인지 확인
+        boolean isExist = memberService.isExistMemberByPhone(dto.getPhone());
+        if (isExist) {
+            throw new RuntimeException("[회원 가입 SMS 요청] 이미 등록된 휴대폰 번호입니다");
+        }
+
         // dto 의 번호로 인증 코드 (랜덤 6자리) 보내고 인증 테이블에 인증 정보 저장
         return sendSmsAndSaveVerification(dto.getPhone(), VerificationPurpose.SIGNUP);
     }

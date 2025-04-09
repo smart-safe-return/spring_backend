@@ -1,6 +1,7 @@
 package com.dodo.smartsafereturn.member.service;
 
 import com.dodo.smartsafereturn.global.service.CloudStorageService;
+import com.dodo.smartsafereturn.member.dto.MemberIdDuplicateCheckDto;
 import com.dodo.smartsafereturn.member.dto.MemberJoinDto;
 import com.dodo.smartsafereturn.member.dto.MemberResponseDto;
 import com.dodo.smartsafereturn.member.dto.MemberUpdateDto;
@@ -9,7 +10,6 @@ import com.dodo.smartsafereturn.member.repository.MemberRepository;
 import com.dodo.smartsafereturn.verification.dto.SMSPasswordRequestDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -178,5 +178,10 @@ public class MemberServiceImpl implements MemberService {
     public Member getMemberById(String id) {
         return memberRepository.findMemberByIdNotDeleted(id)
                 .orElseThrow(() -> new RuntimeException("[MemberService] getMemberById() : 존재하지 않는 회원"));
+    }
+
+    @Override
+    public boolean checkDuplicate(MemberIdDuplicateCheckDto dto) {
+        return memberRepository.findMemberByIdNotDeleted(dto.getId()).isPresent();
     }
 }

@@ -1,5 +1,6 @@
 package com.dodo.smartsafereturn.member.controller;
 
+import com.dodo.smartsafereturn.member.dto.MemberIdDuplicateCheckDto;
 import com.dodo.smartsafereturn.member.dto.MemberJoinDto;
 import com.dodo.smartsafereturn.member.dto.MemberResponseDto;
 import com.dodo.smartsafereturn.member.dto.MemberUpdateDto;
@@ -11,7 +12,6 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Encoding;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -37,7 +37,7 @@ public class MemberController {
     @Operation(
             summary = "회원 가입",
             description = "multipart/form-data 형식으로 MemberJoinDto 를 받아와서 회원 가입 요청 진행",
-            requestBody = @RequestBody(
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     description = "등록할 회원 정보",
                     required = true,
                     content = @Content(
@@ -77,7 +77,7 @@ public class MemberController {
     @Operation(
             summary = "회원 수정",
             description = "multipart/form-data 형식으로 MemberUpdateDto 를 받아와서 회원 가입 요청 진행",
-            requestBody = @RequestBody(
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
                     description = "수정할 회원 정보",
                     required = true,
                     content = @Content(
@@ -228,5 +228,55 @@ public class MemberController {
     public ResponseEntity<List<MemberResponseDto>> getMembers() {
         List<MemberResponseDto> members = memberService.getMembers();
         return ResponseEntity.ok(members);
+    }
+
+    // 회원 가입 - 아이디 중복 체크 엔드포인트
+    @Operation(
+            summary = "회원 아이디 중복 체크",
+            description = "회원 가입 시 아이디 중복 여부를 확인합니다",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "중복 체크할 회원 아이디",
+                    required = true,
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = MemberIdDuplicateCheckDto.class),
+                            examples = {
+                                    @ExampleObject(
+                                            name = "아이디 중복 체크 요청 예시",
+                                            summary = "중복 체크할 아이디 요청 형식",
+                                            value = "{\n" +
+                                                    "  \"id\": \"test\"\n" +
+                                                    "}"
+                                    )
+                            }
+                    )
+            ),
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "중복 체크 성공",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = Boolean.class),
+                                    examples = {
+                                            @ExampleObject(
+                                                    name = "중복 체크 결과",
+                                                    summary = "true: 중복된 아이디, false: 사용 가능한 아이디",
+                                                    value = "false"
+                                            )
+                                    }
+                            )
+                    ),
+                    @ApiResponse(
+                            responseCode = "400",
+                            description = "잘못된 요청",
+                            content = @Content(schema = @Schema(implementation = RuntimeException.class))
+                    )
+            }
+    )
+    @PostMapping("/check-duplicate")
+    public ResponseEntity<Boolean> checkDuplicate(@Validated @RequestBody MemberIdDuplicateCheckDto dto) {
+        boolean isDuplicate = memberService.checkDuplicate(dto);
+        return ResponseEntity.ok(isDuplicate);
     }
 }
