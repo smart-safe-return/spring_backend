@@ -8,6 +8,7 @@ import com.dodo.smartsafereturn.safeRoute.entity.SafeRoute;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.TestOnly;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Slf4j
+@ToString(exclude = {"questionList", "safeRouteList", "emergencyContactList"})
 public class Member extends BaseTimeEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,6 +51,25 @@ public class Member extends BaseTimeEntity {
         this.phone = phone;
         this.isDeleted = false;
         this.profile = profile;
+    }
+
+    // 테스트용 전체 필드 생성자
+    @TestOnly
+    @Builder(builderMethodName = "testBuilder")
+    protected Member(Long memberNumber, String id, String password, String phone,
+                     String profile, Boolean isDeleted,
+                     List<EmergencyContact> emergencyContactList,
+                     List<SafeRoute> safeRouteList,
+                     List<Question> questionList) {
+        this.memberNumber = memberNumber;
+        this.id = id;
+        this.password = password;
+        this.phone = phone;
+        this.profile = profile;
+        this.isDeleted = isDeleted != null ? isDeleted : false;
+        this.emergencyContactList = emergencyContactList != null ? emergencyContactList : new ArrayList<>();
+        this.safeRouteList = safeRouteList != null ? safeRouteList : new ArrayList<>();
+        this.questionList = questionList != null ? questionList : new ArrayList<>();
     }
 
     // 회원 수정 : 비밀번호 or 휴대폰 번호

@@ -67,4 +67,10 @@ dependencies {
 
 tasks.named('test') {
     useJUnitPlatform()
+
+    // 직접 실행 (forking 없음)
+    systemProperty 'file.encoding', 'UTF-8'
+
+    // 사용자 정의 JVM 옵션
+    jvmArgs '-XX:+EnableDynamicAgentLoading'
 }

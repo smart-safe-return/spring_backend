@@ -17,6 +17,7 @@ public class MemberJoinDto {
      * - 아이디
      * - 비밀번호
      * - 휴대폰 번호
+     * - file
      */
     @NotBlank(message = "아이디는 필수 입력 값")
     private String id;
