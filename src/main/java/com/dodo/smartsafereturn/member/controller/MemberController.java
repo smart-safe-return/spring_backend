@@ -234,23 +234,15 @@ public class MemberController {
     @Operation(
             summary = "회원 아이디 중복 체크",
             description = "회원 가입 시 아이디 중복 여부를 확인합니다",
-            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                    description = "중복 체크할 회원 아이디",
-                    required = true,
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = MemberIdDuplicateCheckDto.class),
-                            examples = {
-                                    @ExampleObject(
-                                            name = "아이디 중복 체크 요청 예시",
-                                            summary = "중복 체크할 아이디 요청 형식",
-                                            value = "{\n" +
-                                                    "  \"id\": \"test\"\n" +
-                                                    "}"
-                                    )
-                            }
+            parameters = {
+                    @Parameter(
+                            name = "id",
+                            description = "중복 체크할 회원 아이디",
+                            required = true,
+                            example = "test",
+                            schema = @Schema(type = "string")
                     )
-            ),
+            },
             responses = {
                     @ApiResponse(
                             responseCode = "200",
@@ -275,8 +267,8 @@ public class MemberController {
             }
     )
     @GetMapping("/check-duplicate")
-    public ResponseEntity<Boolean> checkDuplicate(@Validated @RequestBody MemberIdDuplicateCheckDto dto) {
-        boolean isDuplicate = memberService.checkDuplicate(dto);
+    public ResponseEntity<Boolean> checkDuplicate(@RequestParam("id") String id) {
+        boolean isDuplicate = memberService.checkDuplicate(id);
         return ResponseEntity.ok(isDuplicate);
     }
 }

@@ -36,5 +36,5 @@ public interface MemberService {
     Member getMemberById(String id);
 
     // 회원 아이디 중복 체크
-    boolean checkDuplicate(MemberIdDuplicateCheckDto dto);
+    boolean checkDuplicate(String id);
 }

@@ -181,7 +181,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public boolean checkDuplicate(MemberIdDuplicateCheckDto dto) {
-        return memberRepository.findMemberByIdNotDeleted(dto.getId()).isPresent();
+    public boolean checkDuplicate(String id) {
+        return memberRepository.findMemberByIdNotDeleted(id).isPresent();
     }
 }
