@@ -274,7 +274,7 @@ public class MemberController {
                     )
             }
     )
-    @PostMapping("/check-duplicate")
+    @GetMapping("/check-duplicate")
     public ResponseEntity<Boolean> checkDuplicate(@Validated @RequestBody MemberIdDuplicateCheckDto dto) {
         boolean isDuplicate = memberService.checkDuplicate(dto);
         return ResponseEntity.ok(isDuplicate);
