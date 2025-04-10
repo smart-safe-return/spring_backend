@@ -1,6 +1,6 @@
 # 🚀 안전 귀가 SMS 알리미 앱 백엔드
 
-지리 데이터 기반 안전 귀가 알리미 서비스의 백엔드 서비스로, Spring Boot 3.2를 활용한 확장 가능한 REST API를 제공합니다.
+지리 데이터 기반 안전 귀가 알리미 서비스의 백엔드 서비스로, Spring Boot 3를 활용한 확장 가능한 REST API를 제공합니다.
 
 ## 📋 기술 스택
 
@@ -12,6 +12,7 @@
 - **공간 데이터 처리**: Hibernate Spatial 6.5.0, PostGIS JDBC 2.5.0
 - **API 문서화**: SpringDoc OpenAPI (Swagger UI 3) 2.4.0
 - **유효성 검사**: Spring Validation
+- **컨테이너**: Dockerfile
 
 ### 데이터베이스
 - **개발 환경**: PostgreSQL + PostGIS
@@ -144,8 +145,9 @@ Swagger UI를 통해 API 문서가 제공됩니다.
 - 운영 환경: `https://smart-safe-return-backend-88013499747.asia-northeast2.run.app/swagger-ui/index.html`
 
 ## 📊 성능 최적화
-
 - QueryDSL을 활용한 효율적인 쿼리 관리
+  - CustomAnswerRepositoryImpl , CustomQuestionRepositoryImpl
+    : 조건별 검색, 페이징 처리를 위한 count 쿼리, Dto 직접 조회를 통한 N+1 문제 방지 (fetchJoin을 활용하지 않고 최적화 가능)
 
 ## 💡 트러블 슈팅
 - CoolSms 배포 환경 인증
