@@ -2,6 +2,7 @@ package com.dodo.smartsafereturn.safeRoute.service;
 
 import com.dodo.smartsafereturn.member.entity.Member;
 import com.dodo.smartsafereturn.member.repository.MemberRepository;
+import com.dodo.smartsafereturn.safeRoute.dto.LatLngPoint;
 import com.dodo.smartsafereturn.safeRoute.dto.SafeRouteCreateDto;
 import com.dodo.smartsafereturn.safeRoute.dto.SafeRouteResponseDto;
 import com.dodo.smartsafereturn.safeRoute.dto.SafeRouteUpdateDto;
@@ -10,6 +11,10 @@ import com.dodo.smartsafereturn.safeRoute.entity.SafeRoute;
 import com.dodo.smartsafereturn.safeRoute.repository.SafeRouteRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.LineString;
+import org.locationtech.jts.geom.PrecisionModel;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,11 +23,17 @@ import java.util.List;
 @Slf4j
 @Service
 @Transactional(readOnly = true)
-@RequiredArgsConstructor
 public class SafeRouteServiceImpl implements SafeRouteService {
 
     private final SafeRouteRepository safeRouteRepository;
     private final MemberRepository memberRepository;
+    private final GeometryFactory geometryFactory;
+
+    public SafeRouteServiceImpl(SafeRouteRepository safeRouteRepository, MemberRepository memberRepository) {
+        this.safeRouteRepository = safeRouteRepository;
+        this.memberRepository = memberRepository;
+        this.geometryFactory = new GeometryFactory(new PrecisionModel(), 4326);
+    }
 
     @Transactional
     @Override
@@ -31,6 +42,9 @@ public class SafeRouteServiceImpl implements SafeRouteService {
         Member member = memberRepository.findByMemberNumberAndIsDeletedIsFalse(dto.getMemberNumber())
                 .orElseThrow(() -> new RuntimeException("[SafeRouteService] create() : 존재하지 않는 회원"));
 
+        // 라인스트링 생성
+        LineString lineString = generateLineString(dto.getRoutePath());
+
         SafeRoute safeRoute = safeRouteRepository.save(
                 SafeRoute.builder()
                         .startLocation(dto.getStartLocation())
@@ -38,7 +52,7 @@ public class SafeRouteServiceImpl implements SafeRouteService {
                         .startTime(dto.getStartTime())
                         .endTime(dto.getEndTime())
                         .member(member)
-                        .routePath(dto.getRoutePath())
+                        .routePath(lineString)
                         .build()
         );
 
@@ -51,7 +65,10 @@ public class SafeRouteServiceImpl implements SafeRouteService {
         SafeRoute safeRoute = safeRouteRepository.findById(dto.getSafeRouteId())
                 .orElseThrow(() -> new RuntimeException("[SafeRouteService] update() : 존재하지 않는 안전 귀가 경로"));
 
-        safeRoute.update(dto);
+        // 라인스트링 생성
+        LineString lineString = generateLineString(dto.getRoutePath());
+
+        safeRoute.update(dto.getEndLocation(), dto.getEndTime(),lineString);
     }
 
     @Transactional
@@ -88,6 +105,22 @@ public class SafeRouteServiceImpl implements SafeRouteService {
                 .stream()
                 .map(SafeRouteServiceImpl::ofDto)
                 .toList();
+    }
+
+    // 위도 경도 -> 라인스트링화
+    @Override
+    public LineString generateLineString(List<LatLngPoint> points) {
+
+        // 좌표 배열 갯수만큼
+        Coordinate[] coordinates = new Coordinate[points.size()];
+        // Coordinate 배열 구성
+        for (int i = 0; i < points.size(); i++) {
+            LatLngPoint point = points.get(i);
+            coordinates[i] = new Coordinate(point.getLng(), point.getLat());
+        }
+
+        // 라인스트링 생성
+        return geometryFactory.createLineString(coordinates);
     }
 
     private static SafeRouteResponseDto ofDto(SafeRoute safeRoute) {

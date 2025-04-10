@@ -65,10 +65,10 @@ public class SafeRoute extends BaseTimeEntity {
     }
 
     // update 메서드
-    public void update(SafeRouteUpdateDto dto) {
-        this.endLocation = dto.getEndLocation();
-        this.endTime = dto.getEndTime();
-        this.routePath = dto.getRoutePath();
+    public void update(String endLocation, LocalDateTime endTime, LineString routePath) {
+        this.endLocation = endLocation;
+        this.endTime = endTime;
+        this.routePath = routePath;
     }
 
     // status 상태 변경

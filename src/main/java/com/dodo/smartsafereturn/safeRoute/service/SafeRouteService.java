@@ -1,9 +1,11 @@
 package com.dodo.smartsafereturn.safeRoute.service;
 
+import com.dodo.smartsafereturn.safeRoute.dto.LatLngPoint;
 import com.dodo.smartsafereturn.safeRoute.dto.SafeRouteCreateDto;
 import com.dodo.smartsafereturn.safeRoute.dto.SafeRouteResponseDto;
 import com.dodo.smartsafereturn.safeRoute.dto.SafeRouteUpdateDto;
 import com.dodo.smartsafereturn.safeRoute.entity.RouteState;
+import org.locationtech.jts.geom.LineString;
 
 import java.util.List;
 
@@ -21,4 +23,6 @@ public interface SafeRouteService {
     SafeRouteResponseDto getSafeRoute(Long safeRouteId);
     // 안전 귀가 루트 가져오기 (마이페이지 - 회원 귀가 루트 내역 List)
     List<SafeRouteResponseDto> getMemberSafeRoutes(Long memberNumber);
+    // json 위치 경도 배열 -> LineString 화
+    LineString generateLineString(List<LatLngPoint> points);
 }
