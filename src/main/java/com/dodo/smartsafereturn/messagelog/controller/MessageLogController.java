@@ -53,8 +53,8 @@ public class MessageLogController {
                                                       "message": "[안전 귀가 알림] 홍길동님이 설정한 시간 내에 도착하지 않았습니다. 현재 위치: 서울시 강남구",
                                                       "location": {
                                                         "type": "Point",
-                                                        "coordinates": [127.1087, 37.3947]  // [경도, 위도] 순서
-                                                      },
+                                                        "coordinates": [127.1087, 37.3947]
+                                                      }
                                                     }
                                                     """
                                     )
@@ -128,11 +128,11 @@ public class MessageLogController {
                                                             {
                                                               "message_log_id": 5,
                                                               "message": "[안전 귀가 알림] 홍길동님이 설정한 시간 내에 도착하지 않았습니다. 현재 위치: 서울시 강남구",
-                                                              "create_date": "2025-04-03T14:30:45.123Z"
+                                                              "create_date": "2025-04-03T14:30:45.123Z",
                                                               "location": {
                                                                 "type": "Point",
-                                                                "coordinates": [127.1087, 37.3947]  // [경도, 위도] 순서
-                                                              },
+                                                                "coordinates": [127.1087, 37.3947]
+                                                              }
                                                             }
                                                             """
                                             )
@@ -175,20 +175,20 @@ public class MessageLogController {
                                                                 {
                                                                   "message_log_id": 1,
                                                                   "message": "[안전 귀가 알림] 홍길동님이 설정한 시간 내에 도착하지 않았습니다. 현재 위치: 서울시 강남구",
-                                                                  "create_date": "2025-04-03T14:30:45.123Z"
+                                                                  "create_date": "2025-04-03T14:30:45.123Z",
                                                                   "location": {
                                                                     "type": "Point",
-                                                                    "coordinates": [127.1087, 37.3947]  // [경도, 위도] 순서
-                                                                  },
+                                                                    "coordinates": [127.1087, 37.3947]
+                                                                  }
                                                                 },
                                                                 {
                                                                   "message_log_id": 2,
                                                                   "message": "[안전 귀가 알림] 김길동님이 설정한 시간 내에 도착하지 않았습니다. 현재 위치: 서울시 강남구",
-                                                                  "create_date": "2025-04-04T14:30:45.123Z"
+                                                                  "create_date": "2025-04-04T14:30:45.123Z",
                                                                   "location": {
                                                                     "type": "Point",
-                                                                    "coordinates": [127.1087, 39.3947]  // [경도, 위도] 순서
-                                                                  },
+                                                                    "coordinates": [127.1087, 39.3947]
+                                                                  }
                                                                 }
                                                             ]
                                                             """
@@ -232,20 +232,20 @@ public class MessageLogController {
                                                                 {
                                                                   "message_log_id": 1,
                                                                   "message": "[안전 귀가 알림] 홍길동님이 설정한 시간 내에 도착하지 않았습니다. 현재 위치: 서울시 강남구",
-                                                                  "create_date": "2025-04-03T14:30:45.123Z"
+                                                                  "create_date": "2025-04-03T14:30:45.123Z",
                                                                   "location": {
                                                                     "type": "Point",
-                                                                    "coordinates": [127.1087, 37.3947]  // [경도, 위도] 순서
-                                                                  },
+                                                                    "coordinates": [127.1087, 37.3947]
+                                                                  }
                                                                 },
                                                                 {
                                                                   "message_log_id": 2,
                                                                   "message": "[안전 귀가 알림] 김길동님이 설정한 시간 내에 도착하지 않았습니다. 현재 위치: 서울시 강남구",
-                                                                  "create_date": "2025-04-04T14:30:45.123Z"
+                                                                  "create_date": "2025-04-04T14:30:45.123Z",
                                                                   "location": {
                                                                     "type": "Point",
-                                                                    "coordinates": [127.1087, 39.3947]  // [경도, 위도] 순서
-                                                                  },
+                                                                    "coordinates": [127.1087, 39.3947]
+                                                                  }
                                                                 }
                                                             ]
                                                             """
@@ -286,20 +286,20 @@ public class MessageLogController {
                                                                 {
                                                                   "message_log_id": 1,
                                                                   "message": "[안전 귀가 알림] 홍길동님이 설정한 시간 내에 도착하지 않았습니다. 현재 위치: 서울시 강남구",
-                                                                  "create_date": "2025-04-03T14:30:45.123Z"
+                                                                  "create_date": "2025-04-03T14:30:45.123Z",
                                                                   "location": {
                                                                     "type": "Point",
-                                                                    "coordinates": [127.1087, 37.3947]  // [경도, 위도] 순서
-                                                                  },
+                                                                    "coordinates": [127.1087, 37.3947]
+                                                                  }
                                                                 },
                                                                 {
                                                                   "message_log_id": 2,
                                                                   "message": "[안전 귀가 알림] 김길동님이 설정한 시간 내에 도착하지 않았습니다. 현재 위치: 서울시 강남구",
-                                                                  "create_date": "2025-04-04T14:30:45.123Z"
+                                                                  "create_date": "2025-04-04T14:30:45.123Z",
                                                                   "location": {
                                                                     "type": "Point",
-                                                                    "coordinates": [127.1087, 39.3947]  // [경도, 위도] 순서
-                                                                  },
+                                                                    "coordinates": [127.1087, 39.3947]
+                                                                  }
                                                                 }
                                                             ]
                                                             """
