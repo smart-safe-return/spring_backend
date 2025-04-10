@@ -57,19 +57,19 @@ public class CustomLogoutFilter extends GenericFilterBean {
         // Bearer 포장 떼기
         refreshToken = refreshToken.split(" ")[1];
 
-        // 만료 검증
-        try {
-            jwtUtil.isExpired(refreshToken);
-        } catch (ExpiredJwtException e) {
-            // 이미 만료되었으면 이미 로그아웃 된 상태므로 400 에러 or 이미 로그아웃됨을 알려줌
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            return;
-        }
-
         // refresh 타입의 토큰인지 검증
         if (!jwtUtil.getType(refreshToken).equals("refresh")) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             return;
+        }
+
+        // 만료 검증
+        try {
+            jwtUtil.isExpired(refreshToken);
+        } catch (ExpiredJwtException e) {
+            // 이미 만료되었어도 이미 오랜시간 프론트에서 있다가 로그아웃한 경우가 있으므로 사용자 경험 측면에서 그냥 로그아웃하게 해주는게 맞음
+            // 단지 리프레시 토큰 만료만 알려주기
+            response.getWriter().write("refresh token expired");
         }
 
         // 로그아웃 로직 수행

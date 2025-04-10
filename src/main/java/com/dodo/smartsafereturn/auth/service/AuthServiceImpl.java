@@ -115,6 +115,7 @@ public class AuthServiceImpl implements AuthService {
         // DB에 해당 토큰이 있는지 확인
         if (!tokenRepository.existsByToken(refreshToken)) {
             // DB에 없다면 이미 로그아웃된 상태여야하므로 400 던짐
+            log.info("[JWT logout 기능] 이미 로그아웃되어 없는 리프레시 토큰입니다.");
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             return;
         }

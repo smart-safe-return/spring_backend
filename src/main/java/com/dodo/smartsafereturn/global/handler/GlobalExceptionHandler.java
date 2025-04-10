@@ -51,6 +51,7 @@ public class GlobalExceptionHandler {
                 .body("파일 크기가 제한을 초과했습니다. 최대 10MB 까지 업로드할 수 있습니다.");
     }
 
+    // 정하지않은 RuntimeException 공통 처라
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<String> handleRuntimeException(RuntimeException e) {
         log.error("런타임 오류: ", e);
