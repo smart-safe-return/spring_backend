@@ -46,12 +46,17 @@ public class MessageLogController {
                                     @ExampleObject(
                                             name = "SMS 메시지 전송 요청 예시",
                                             summary = "SMS 메시지 전송 및 로그 등록에 필요한 데이터",
-                                            value = "{\n" +
-                                                    "  \"member_number\": 1,\n" +
-                                                    "  \"safe_route_id\": 5,\n" +
-                                                    "  \"message\": \"[안전 귀가 알림] 홍길동님이 설정한 시간 내에 도착하지 않았습니다. 현재 위치: 서울시 강남구\",\n" +
-                                                    "  \"location\": \"[Geometry Point 타입 정보]\"\n" +
-                                                    "}"
+                                            value = """
+                                                    {
+                                                      "member_number": 1,
+                                                      "safe_route_id": 5,
+                                                      "message": "[안전 귀가 알림] 홍길동님이 설정한 시간 내에 도착하지 않았습니다. 현재 위치: 서울시 강남구",
+                                                      "location": {
+                                                        "type": "Point",
+                                                        "coordinates": [127.1087, 37.3947]  // [경도, 위도] 순서
+                                                      },
+                                                    }
+                                                    """
                                     )
                             }
                     )
@@ -119,12 +124,17 @@ public class MessageLogController {
                                             @ExampleObject(
                                                     name = "메시지 로그 조회 응답 예시",
                                                     summary = "메시지 로그 상세 정보",
-                                                    value = "{\n" +
-                                                            "  \"message_log_id\": 1,\n" +
-                                                            "  \"message\": \"[안전 귀가 알림] 홍길동님이 설정한 시간 내에 도착하지 않았습니다. 현재 위치: 서울시 강남구\",\n" +
-                                                            "  \"create_date\": \"2025-04-03T14:30:45.123Z\",\n" +
-                                                            "  \"location\": \"[geometry Point 값]\"\n" +
-                                                            "}"
+                                                    value = """
+                                                            {
+                                                              "message_log_id": 5,
+                                                              "message": "[안전 귀가 알림] 홍길동님이 설정한 시간 내에 도착하지 않았습니다. 현재 위치: 서울시 강남구",
+                                                              "create_date": "2025-04-03T14:30:45.123Z"
+                                                              "location": {
+                                                                "type": "Point",
+                                                                "coordinates": [127.1087, 37.3947]  // [경도, 위도] 순서
+                                                              },
+                                                            }
+                                                            """
                                             )
                                     }
                             )
@@ -160,20 +170,28 @@ public class MessageLogController {
                                             @ExampleObject(
                                                     name = "귀가 경로별 메시지 로그 응답 예시",
                                                     summary = "특정 귀가 경로의 메시지 로그 목록",
-                                                    value = "[\n" +
-                                                            "  {\n" +
-                                                            "    \"message_log_id\": 1,\n" +
-                                                            "    \"message\": \"[안전 귀가 알림] 홍길동님이 설정한 시간 내에 도착하지 않았습니다. 현재 위치: 서울시 강남구\",\n" +
-                                                            "    \"create_date\": \"2025-04-03T14:30:45.123Z\",\n" +
-                                                            "    \"location\": \"[geometry Point 값]\"\n" +
-                                                            "  },\n" +
-                                                            "  {\n" +
-                                                            "    \"message_log_id\": 2,\n" +
-                                                            "    \"message\": \"[안전 귀가 알림] 홍길동님이 설정한 시간 내에 도착하지 않았습니다. 현재 위치: 서울시 강남구\",\n" +
-                                                            "    \"create_date\": \"2025-04-03T14:31:12.456Z\",\n" +
-                                                            "    \"location\": \"[geometry Point 값]\"\n" +
-                                                            "  }\n" +
-                                                            "]"
+                                                    value = """
+                                                            [
+                                                                {
+                                                                  "message_log_id": 1,
+                                                                  "message": "[안전 귀가 알림] 홍길동님이 설정한 시간 내에 도착하지 않았습니다. 현재 위치: 서울시 강남구",
+                                                                  "create_date": "2025-04-03T14:30:45.123Z"
+                                                                  "location": {
+                                                                    "type": "Point",
+                                                                    "coordinates": [127.1087, 37.3947]  // [경도, 위도] 순서
+                                                                  },
+                                                                },
+                                                                {
+                                                                  "message_log_id": 2,
+                                                                  "message": "[안전 귀가 알림] 김길동님이 설정한 시간 내에 도착하지 않았습니다. 현재 위치: 서울시 강남구",
+                                                                  "create_date": "2025-04-04T14:30:45.123Z"
+                                                                  "location": {
+                                                                    "type": "Point",
+                                                                    "coordinates": [127.1087, 39.3947]  // [경도, 위도] 순서
+                                                                  },
+                                                                }
+                                                            ]
+                                                            """
                                             )
                                     }
                             )
@@ -209,20 +227,28 @@ public class MessageLogController {
                                             @ExampleObject(
                                                     name = "회원별 메시지 로그 응답 예시",
                                                     summary = "특정 회원의 메시지 로그 목록",
-                                                    value = "[\n" +
-                                                            "  {\n" +
-                                                            "    \"message_log_id\": 1,\n" +
-                                                            "    \"message\": \"[안전 귀가 알림] 홍길동님이 설정한 시간 내에 도착하지 않았습니다. 현재 위치: 서울시 강남구\",\n" +
-                                                            "    \"create_date\": \"2025-04-03T14:30:45.123Z\",\n" +
-                                                            "    \"location\": \"[geometry Point 값]\"\n" +
-                                                            "  },\n" +
-                                                            "  {\n" +
-                                                            "    \"message_log_id\": 2,\n" +
-                                                            "    \"message\": \"[안전 귀가 알림] 홍길동님이 설정한 시간 내에 도착하지 않았습니다. 현재 위치: 서울시 강남구\",\n" +
-                                                            "    \"create_date\": \"2025-04-03T14:31:12.456Z\",\n" +
-                                                            "    \"location\": \"[geometry Point 값]\"\n" +
-                                                            "  }\n" +
-                                                            "]"
+                                                    value = """
+                                                            [
+                                                                {
+                                                                  "message_log_id": 1,
+                                                                  "message": "[안전 귀가 알림] 홍길동님이 설정한 시간 내에 도착하지 않았습니다. 현재 위치: 서울시 강남구",
+                                                                  "create_date": "2025-04-03T14:30:45.123Z"
+                                                                  "location": {
+                                                                    "type": "Point",
+                                                                    "coordinates": [127.1087, 37.3947]  // [경도, 위도] 순서
+                                                                  },
+                                                                },
+                                                                {
+                                                                  "message_log_id": 2,
+                                                                  "message": "[안전 귀가 알림] 김길동님이 설정한 시간 내에 도착하지 않았습니다. 현재 위치: 서울시 강남구",
+                                                                  "create_date": "2025-04-04T14:30:45.123Z"
+                                                                  "location": {
+                                                                    "type": "Point",
+                                                                    "coordinates": [127.1087, 39.3947]  // [경도, 위도] 순서
+                                                                  },
+                                                                }
+                                                            ]
+                                                            """
                                             )
                                     }
                             )
@@ -255,20 +281,28 @@ public class MessageLogController {
                                             @ExampleObject(
                                                     name = "전체 메시지 로그 응답 예시",
                                                     summary = "전체 메시지 로그 목록",
-                                                    value = "[\n" +
-                                                            "  {\n" +
-                                                            "    \"message_log_id\": 1,\n" +
-                                                            "    \"message\": \"[안전 귀가 알림] 홍길동님이 설정한 시간 내에 도착하지 않았습니다. 현재 위치: 서울시 강남구\",\n" +
-                                                            "    \"create_date\": \"2025-04-03T14:30:45.123Z\",\n" +
-                                                            "    \"location\": \"[geometry Point 값]\"\n" +
-                                                            "  },\n" +
-                                                            "  {\n" +
-                                                            "    \"message_log_id\": 2,\n" +
-                                                            "    \"message\": \"[안전 귀가 알림] 홍길동님이 설정한 시간 내에 도착하지 않았습니다. 현재 위치: 서울시 강남구\",\n" +
-                                                            "    \"create_date\": \"2025-04-03T14:31:12.456Z\",\n" +
-                                                            "    \"location\": \"[geometry Point 값]\"\n" +
-                                                            "  }\n" +
-                                                            "]"
+                                                    value = """
+                                                            [
+                                                                {
+                                                                  "message_log_id": 1,
+                                                                  "message": "[안전 귀가 알림] 홍길동님이 설정한 시간 내에 도착하지 않았습니다. 현재 위치: 서울시 강남구",
+                                                                  "create_date": "2025-04-03T14:30:45.123Z"
+                                                                  "location": {
+                                                                    "type": "Point",
+                                                                    "coordinates": [127.1087, 37.3947]  // [경도, 위도] 순서
+                                                                  },
+                                                                },
+                                                                {
+                                                                  "message_log_id": 2,
+                                                                  "message": "[안전 귀가 알림] 김길동님이 설정한 시간 내에 도착하지 않았습니다. 현재 위치: 서울시 강남구",
+                                                                  "create_date": "2025-04-04T14:30:45.123Z"
+                                                                  "location": {
+                                                                    "type": "Point",
+                                                                    "coordinates": [127.1087, 39.3947]  // [경도, 위도] 순서
+                                                                  },
+                                                                }
+                                                            ]
+                                                            """
                                             )
                                     }
                             )
