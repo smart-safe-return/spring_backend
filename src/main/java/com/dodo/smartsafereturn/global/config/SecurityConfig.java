@@ -80,6 +80,7 @@ public class SecurityConfig {
                                         .requestMatchers(HttpMethod.POST, "/api/member").permitAll() // 회원 가입
                                         .requestMatchers(HttpMethod.GET, "/api/member/check-duplicate").permitAll() // 회원 가입 - 아이디 중복 체크 엔드포인트
                                         .requestMatchers(HttpMethod.POST, "/api/verification/**").permitAll() // 인증 관련 요청 엔드포인트
+                                        .requestMatchers(HttpMethod.PUT, "/api/verification/password/reset").permitAll() // 비밀 번호 변경 엔드포인트 허용
                                         .requestMatchers(HttpMethod.DELETE, "/api/message-log/**").hasRole("ADMIN") // SMS 메시지 로그 관리 (삭제)
                                         .requestMatchers("/api/question-category/**").hasRole("ADMIN") // 카테고리 관리는 관리자만
                                         .requestMatchers("/api/answer/**").hasRole("ADMIN") // 답변 글 관리는 관리자만
