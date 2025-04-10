@@ -10,7 +10,7 @@
 - **보안**: Spring Security, JWT (jjwt 0.12.3)
 - **ORM**: Spring Data JPA, Hibernate, QueryDSL 5.0.0
 - **공간 데이터 처리**: Hibernate Spatial 6.5.0, PostGIS JDBC 2.5.0
-- **API 문서화**: SpringDoc OpenAPI (Swagger UI 3) 2.4.0
+- **API 문서화**: [SpringDoc OpenAPI (Swagger UI 3) 2.4.0](https://smart-safe-return-backend-88013499747.asia-northeast2.run.app/swagger-ui/index.html)
 - **유효성 검사**: Spring Validation
 - **컨테이너**: Dockerfile
 
@@ -80,44 +80,6 @@ src/
     └── java/com/dodo/smartsafereturn/ # 테스트 코드 
 ```
 
-
-## 🔧 설치 및 실행 방법
-
-### 사전 요구사항
-- JDK 21
-- PostgreSQL + PostGIS 확장
-- (선택사항) Google Cloud 계정
-
-### 로컬 개발 환경 설정
-
-1. 저장소 클론
-```bash
-git clone https://github.com/smart-safe-return/spring_backend.git
-cd smart-safe-return-backend
-```
-
-2. 환경 변수 설정
-```bash
-# .env 파일 생성 또는 IDE 실행 설정에 추가
-SPRING_DATABASE_USERNAME=your_db_username
-SPRING_DATABASE_PASSWORD=your_db_password
-SPRING_DATABASE_NAME=your_db_name
-SPRING_JWT_SECRET=your_jwt_secret
-COOL_SMS_API_KEY=your_coolsms_api_key
-COOL_SMS_SECRET_KEY=your_coolsms_secret_key
-COOL_SMS_FROM_NUMBER=your_coolsms_from_number
-```
-
-3. 애플리케이션 실행
-```bash
-./gradlew bootRun
-```
-
-4. API 문서 확인
-```
-https://smart-safe-return-backend-88013499747.asia-northeast2.run.app/swagger-ui/index.html
-```
-
 ## 🚀 배포
 
 이 프로젝트는 Google Cloud Run에 배포할 수 있도록 구성되어 있습니다.
@@ -141,7 +103,6 @@ gcloud run deploy smart-safe-return-backend \
 
 Swagger UI를 통해 API 문서가 제공됩니다.
 
-- 개발 환경: `http://localhost:8080/swagger-ui.html`
 - 운영 환경: `https://smart-safe-return-backend-88013499747.asia-northeast2.run.app/swagger-ui/index.html`
 
 ## 📊 성능 최적화
@@ -158,4 +119,4 @@ Swagger UI를 통해 API 문서가 제공됩니다.
 
 - 개발자: [이규찬](mailto:hoo788@gmail.com)
 - 웹사이트: [포트폴리오 링크](https://github.com/smart-safe-return/spring_backend)
-- LinkedIn: [LinkedIn 프로필](https://github.com/gyuchanlee)
+- GitHub: [GitHub 프로필](https://github.com/gyuchanlee)
