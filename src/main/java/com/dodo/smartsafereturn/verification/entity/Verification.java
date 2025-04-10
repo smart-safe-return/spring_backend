@@ -55,7 +55,7 @@ public class Verification extends BaseTimeEntity {
         this.identifier = identifier;
         this.type = type;
         this.purpose = purpose;
-        this.expiryTime = LocalDateTime.now().plusMinutes(10); // 유효시간 : 인증 요청 시간  + 10분
+        this.expiryTime = LocalDateTime.now().plusMinutes(3); // 유효시간 : 인증 요청 시간  + 3분
     }
 
     // 인증 횟수 추가 메서드
