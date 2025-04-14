@@ -1,9 +1,6 @@
 package com.dodo.smartsafereturn.member.controller;
 
-import com.dodo.smartsafereturn.member.dto.MemberIdDuplicateCheckDto;
-import com.dodo.smartsafereturn.member.dto.MemberJoinDto;
-import com.dodo.smartsafereturn.member.dto.MemberResponseDto;
-import com.dodo.smartsafereturn.member.dto.MemberUpdateDto;
+import com.dodo.smartsafereturn.member.dto.*;
 import com.dodo.smartsafereturn.member.service.MemberService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -270,5 +267,56 @@ public class MemberController {
     public ResponseEntity<Boolean> checkDuplicate(@RequestParam("id") String id) {
         boolean isDuplicate = memberService.checkDuplicate(id);
         return ResponseEntity.ok(isDuplicate);
+    }
+
+    // 비밀 번호 체크 엔드포인트
+    @Operation(
+            summary = "회원 비밀번호 유효성 체크",
+            description = "회원 비밀번호 변경 또는 중요 기능 접근 시 현재 비밀번호의 유효성을 확인합니다",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "비밀번호 체크 정보",
+                    required = true,
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = PasswordCheckDto.class),
+                            examples = {
+                                    @ExampleObject(
+                                            name = "비밀번호 체크 요청 예시",
+                                            summary = "아이디와 비밀번호 입력 예시",
+                                            value = "{\n" +
+                                                    "  \"id\": \"ExampleMan\",\n" +
+                                                    "  \"password\": \"!test1234\"\n" +
+                                                    "}"
+                                    )
+                            }
+                    )
+            ),
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "비밀번호 체크 성공",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = Boolean.class),
+                                    examples = {
+                                            @ExampleObject(
+                                                    name = "비밀번호 체크 결과",
+                                                    summary = "true: 유효한 비밀번호, false: 유효하지 않은 비밀번호",
+                                                    value = "true"
+                                            )
+                                    }
+                            )
+                    ),
+                    @ApiResponse(
+                            responseCode = "400",
+                            description = "유효하지 않은 요청",
+                            content = @Content(schema = @Schema(implementation = RuntimeException.class))
+                    )
+            }
+    )
+    @PostMapping("/{memberNumber}/password-check")
+    public ResponseEntity<Boolean> checkPassword(@RequestBody @Validated PasswordCheckDto dto) {
+        boolean isValid = memberService.checkPassword(dto);
+        return ResponseEntity.ok(isValid);
     }
 }

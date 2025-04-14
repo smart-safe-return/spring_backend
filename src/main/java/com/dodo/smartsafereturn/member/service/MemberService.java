@@ -1,9 +1,6 @@
 package com.dodo.smartsafereturn.member.service;
 
-import com.dodo.smartsafereturn.member.dto.MemberIdDuplicateCheckDto;
-import com.dodo.smartsafereturn.member.dto.MemberJoinDto;
-import com.dodo.smartsafereturn.member.dto.MemberResponseDto;
-import com.dodo.smartsafereturn.member.dto.MemberUpdateDto;
+import com.dodo.smartsafereturn.member.dto.*;
 import com.dodo.smartsafereturn.member.entity.Member;
 import com.dodo.smartsafereturn.verification.dto.SMSPasswordRequestDto;
 
@@ -37,4 +34,7 @@ public interface MemberService {
 
     // 회원 아이디 중복 체크
     boolean checkDuplicate(String id);
+
+    // 회원 탈퇴 전, 아이디 비밀번호 체크
+    boolean checkPassword(PasswordCheckDto dto);
 }

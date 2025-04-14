@@ -1,10 +1,7 @@
 package com.dodo.smartsafereturn.member.service;
 
 import com.dodo.smartsafereturn.global.service.CloudStorageService;
-import com.dodo.smartsafereturn.member.dto.MemberIdDuplicateCheckDto;
-import com.dodo.smartsafereturn.member.dto.MemberJoinDto;
-import com.dodo.smartsafereturn.member.dto.MemberResponseDto;
-import com.dodo.smartsafereturn.member.dto.MemberUpdateDto;
+import com.dodo.smartsafereturn.member.dto.*;
 import com.dodo.smartsafereturn.member.entity.Member;
 import com.dodo.smartsafereturn.member.repository.MemberRepository;
 import com.dodo.smartsafereturn.verification.dto.SMSPasswordRequestDto;
@@ -183,5 +180,14 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public boolean checkDuplicate(String id) {
         return memberRepository.findMemberByIdNotDeleted(id).isPresent();
+    }
+
+    @Override
+    public boolean checkPassword(PasswordCheckDto dto) {
+
+        Member member = memberRepository.findMemberByIdNotDeleted(dto.getId())
+                .orElseThrow(() -> new RuntimeException("[MemberService] checkPassword() : 존재하지 않는 회원"));
+
+        return passwordEncoder.matches(dto.getPassword(), member.getPassword());
     }
 }

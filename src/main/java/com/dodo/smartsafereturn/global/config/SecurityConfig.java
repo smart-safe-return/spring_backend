@@ -79,6 +79,7 @@ public class SecurityConfig {
                                         .requestMatchers(HttpMethod.POST, "/api/auth/reissue").permitAll() // 리프레시 토큰 재발급 로직 경로
                                         .requestMatchers(HttpMethod.POST, "/api/member").permitAll() // 회원 가입
                                         .requestMatchers(HttpMethod.GET, "/api/member/check-duplicate").permitAll() // 회원 가입 - 아이디 중복 체크 엔드포인트
+                                        .requestMatchers(HttpMethod.POST, "/api/member/*/password-check").hasRole("USER") // 비밀번호 체크 엔드포인트 - 회원만
                                         .requestMatchers(HttpMethod.POST, "/api/verification/**").permitAll() // 인증 관련 요청 엔드포인트
                                         .requestMatchers(HttpMethod.PUT, "/api/verification/password/reset").permitAll() // 비밀 번호 변경 엔드포인트 허용
                                         .requestMatchers(HttpMethod.DELETE, "/api/message-log/**").hasRole("ADMIN") // SMS 메시지 로그 관리 (삭제)
