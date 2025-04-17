@@ -39,21 +39,15 @@ public class MessageLogServiceImpl implements MessageLogService {
         SafeRoute safeRoute = safeRouteRepository.findById(dto.getSafeRouteId())
                 .orElseThrow(() -> new RuntimeException("[MessageLogService] save() : 존재 하지 않는 귀가루트"));
 
-        // memberNumber 로 비상연락망 검색 후, 연락망만큼 sms 보내기
-        List<EmergencyContactResponseDto> toList = emergencyContactService.getMemberContacts(dto.getNumberNumber());
+        List<String> toList = dto.getPhoneList();
 
         // cool sms 전송
         if (toList.isEmpty()) {
             throw new RuntimeException("[MessageLogService] coolSms 전송 실패 -> 비상연락망 등록한 사람이 없음");
         } else if (toList.size() == 1) {
-            smsService.sendSms(toList.getFirst().getPhone(), dto.getMessage());
+            smsService.sendSms(toList.getFirst(), dto.getMessage());
         } else {
-            // dto 에서 보낼 연락처들 뽑아 내기
-            List<String> toNumbers = toList.stream()
-                    .map(EmergencyContactResponseDto::getPhone)
-                    .toList();
-            
-            smsService.sendSmsToMany(toNumbers, dto.getMessage());
+            smsService.sendSmsToMany(toList, dto.getMessage());
         }
 
         MessageLog savedMessageLog = messageLogRepository.save(
