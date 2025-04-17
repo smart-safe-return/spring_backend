@@ -158,6 +158,7 @@ public class CustomQuestionRepositoryImpl implements CustomQuestionRepository {
                         member.memberNumber.eq(memberNumber),
                         question.isDeleted.isFalse()
                 )
+                .orderBy(new OrderSpecifier<>(Order.DESC, question.createdDate))
                 .fetch();
     }
 }
