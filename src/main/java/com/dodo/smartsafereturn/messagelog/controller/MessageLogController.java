@@ -48,13 +48,13 @@ public class MessageLogController {
                                             summary = "SMS 메시지 전송 및 로그 등록에 필요한 데이터",
                                             value = """
                                                 {
-                                                  "safeRouteId": 5,
+                                                  "safe_route_id": 5,
                                                   "message": "[안전 귀가 알림] 홍길동님이 설정한 시간 내에 도착하지 않았습니다. 현재 위치: 서울시 강남구",
                                                   "location": {
                                                     "type": "Point",
                                                     "coordinates": [127.1087, 37.3947]
                                                   },
-                                                  "phoneList": ["01012345678", "01098765432"]
+                                                  "phone_list": ["01012345678", "01098765432"]
                                                 }
                                                 """
                                     )
