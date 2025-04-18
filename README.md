@@ -17,6 +17,7 @@
 ### 데이터베이스
 - **개발 환경**: PostgreSQL + PostGIS
 - **운영 환경**: PostgreSQL + PostGIS (공간 데이터 확장)
+- **구조**: [ERD CLOUD](https://www.erdcloud.com/d/qB5R3umPgfB8fMYXq)
 
 ### 클라우드 서비스
 - **배포 환경**: Google Cloud Run
